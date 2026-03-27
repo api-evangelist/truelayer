@@ -1,0 +1,42 @@
+aid: truelayer
+name: TrueLayer
+description: >-
+  TrueLayer is an open banking API platform providing unified access to bank
+  data, payments, and financial services across Europe.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Unified API
+  - Open Banking
+  - Payments
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: truelayer:truelayer
+    name: TrueLayer
+    description: >-
+      TrueLayer is an open banking API platform providing unified access to
+      bank data, payments, and financial services across Europe.
+    humanURL: https://truelayer.com/
+    tags:
+      - Unified API
+      - Open Banking
+      - Payments
+    properties:
+      - type: Documentation
+        url: https://truelayer.com/docs/
+      - type: Getting Started
+        url: https://truelayer.com/docs/getting-started
+common:
+  - type: Website
+    url: https://truelayer.com/
+  - type: Documentation
+    url: https://truelayer.com/docs/
+  - type: GitHub Organization
+    url: https://github.com/TrueLayer
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
