@@ -1,0 +1,138 @@
+aid: truelayer-vocabulary
+name: TrueLayer Vocabulary
+description: >-
+  Domain vocabulary for TrueLayer's open banking platform covering payment
+  types, authentication concepts, bank connectivity, regulatory frameworks,
+  and open banking terminology for UK and EU markets.
+created: '2026-05-03'
+modified: '2026-05-03'
+tags:
+  - Open Banking
+  - Payments
+  - Fintech
+  - UK Banking
+  - EU Banking
+
+terms:
+  - term: Open Banking
+    definition: >-
+      A regulatory framework requiring banks to share financial data with
+      authorized third-party providers via APIs, enabling payment initiation
+      and account information services. Mandated by PSD2 in the EU and the
+      UK Open Banking Implementation Entity (OBIE) in the UK.
+    tags:
+      - Core Concepts
+      - Regulation
+
+  - term: Pay-In
+    definition: >-
+      A payment made from a user's bank account into a merchant's account
+      via open banking rails. Also called a closed-loop payment or deposit.
+    tags:
+      - Payments
+
+  - term: Payout
+    definition: >-
+      A payment initiated from a merchant's account to an end user's bank
+      account. Used for refunds, withdrawals, and disbursements.
+    tags:
+      - Payments
+      - Payouts
+
+  - term: Variable Recurring Payment
+    definition: >-
+      A series of payments made from a user's account based on a pre-authorized
+      mandate. Unlike Direct Debit, VRP payments can vary in amount and timing
+      within constraints defined by the mandate.
+    abbreviation: VRP
+    tags:
+      - Payments
+      - Mandates
+
+  - term: Mandate
+    definition: >-
+      An authorization from a bank account holder that permits a third party
+      to initiate future VRP payments on their behalf within specified limits.
+    tags:
+      - Mandates
+
+  - term: Minor Units
+    definition: >-
+      Currency amounts expressed in the smallest unit of the currency (e.g.,
+      pence for GBP, cents for EUR). TrueLayer requires all amounts in minor
+      units to avoid floating-point precision issues.
+    tags:
+      - Payments
+      - Core Concepts
+
+  - term: Request Signing
+    definition: >-
+      TrueLayer's security requirement for all POST payment API requests. A
+      detached JWS (JSON Web Signature) is generated using the merchant's
+      private key and included in the Tl-Signature header.
+    tags:
+      - Authentication
+      - Security
+
+  - term: Merchant Account
+    definition: >-
+      A TrueLayer-managed bank account holding received payments. Funds settle
+      into merchant accounts and can be paid out to external accounts.
+    tags:
+      - Merchant Accounts
+
+  - term: Resource Token
+    definition: >-
+      A short-lived JWT (15 minute expiry) returned after payment creation.
+      Used to initialize TrueLayer's Web SDK or hosted payment page for
+      client-side authorization.
+    tags:
+      - Authentication
+
+  - term: Idempotency Key
+    definition: >-
+      A unique UUID sent with each POST request to ensure duplicate requests
+      produce the same result without creating duplicate payments. Required
+      for all TrueLayer payment creation endpoints.
+    tags:
+      - Authentication
+      - Payments
+
+  - term: Tl-Signature
+    definition: >-
+      The HTTP header containing the detached JWS request signature required
+      for POST requests to TrueLayer's payment endpoints.
+    tags:
+      - Authentication
+      - Security
+
+  - term: Settlement
+    definition: >-
+      The process by which an executed payment moves from the sender's account
+      to the recipient's account and becomes available. Trigger for the
+      payment_creditable webhook.
+    tags:
+      - Payments
+
+  - term: PSD2
+    definition: >-
+      The EU Payment Services Directive 2 — the regulatory framework mandating
+      open banking APIs across the European Union. TrueLayer's EU coverage
+      is built on PSD2-compliant bank connections.
+    tags:
+      - Regulation
+      - EU Banking
+
+  - term: Sweeping Mandate
+    definition: >-
+      A type of VRP mandate for moving money between a user's own accounts,
+      typically for automatic savings or account top-ups.
+    tags:
+      - Mandates
+
+  - term: Commercial Mandate
+    definition: >-
+      A type of VRP mandate for recurring payments from a user's account to
+      any beneficiary, used for subscription billing and variable payments.
+    tags:
+      - Mandates

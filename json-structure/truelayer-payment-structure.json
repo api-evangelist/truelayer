@@ -1,0 +1,52 @@
+{
+  "name": "Payment",
+  "description": "TrueLayer open banking payment lifecycle",
+  "fields": [
+    { "name": "id", "type": "uuid", "description": "Payment identifier", "required": true },
+    { "name": "amount_in_minor", "type": "integer", "description": "Amount in pence/cents", "required": true },
+    { "name": "currency", "type": "enum[GBP,EUR]", "description": "ISO 4217 currency", "required": true },
+    { "name": "status", "type": "enum[authorization_required,authorizing,authorized,executed,settled,failed,pending]", "required": true },
+    { "name": "payment_method", "type": "PaymentMethod", "required": true },
+    { "name": "user", "type": "User", "required": true },
+    { "name": "metadata", "type": "map[string,string]", "description": "Custom key-value pairs (max 10)", "required": false },
+    { "name": "created_at", "type": "datetime", "required": false },
+    { "name": "executed_at", "type": "datetime", "required": false },
+    { "name": "settled_at", "type": "datetime", "required": false },
+    { "name": "failure_reason", "type": "string", "required": false }
+  ],
+  "nested": {
+    "PaymentMethod": {
+      "fields": [
+        { "name": "type", "type": "enum[bank_transfer,mandate]", "required": true },
+        { "name": "provider_selection", "type": "ProviderSelection", "required": false },
+        { "name": "scheme_selection", "type": "SchemeSelection", "required": false },
+        { "name": "beneficiary", "type": "Beneficiary", "required": true }
+      ]
+    },
+    "Beneficiary": {
+      "fields": [
+        { "name": "type", "type": "enum[merchant_account,external_account]", "required": true },
+        { "name": "merchant_account_id", "type": "uuid", "required": false },
+        { "name": "account_holder_name", "type": "string", "required": false },
+        { "name": "account_identifier", "type": "AccountIdentifier", "required": false }
+      ]
+    },
+    "AccountIdentifier": {
+      "fields": [
+        { "name": "type", "type": "enum[sort_code_account_number,iban,bban,nrb]", "required": true },
+        { "name": "sort_code", "type": "string", "required": false },
+        { "name": "account_number", "type": "string", "required": false },
+        { "name": "iban", "type": "string", "required": false }
+      ]
+    },
+    "User": {
+      "fields": [
+        { "name": "id", "type": "uuid", "required": false },
+        { "name": "name", "type": "string", "required": true },
+        { "name": "email", "type": "email", "required": false },
+        { "name": "phone", "type": "string", "required": false },
+        { "name": "date_of_birth", "type": "date", "required": false }
+      ]
+    }
+  }
+}

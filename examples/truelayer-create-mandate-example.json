@@ -1,0 +1,55 @@
+{
+  "description": "Create a Variable Recurring Payment (VRP) mandate",
+  "request": {
+    "method": "POST",
+    "url": "https://api.truelayer.com/v3/mandates",
+    "headers": {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      "Tl-Signature": "YOUR_JWS_SIGNATURE",
+      "Idempotency-Key": "660f9511-f30c-52e5-b827-557766551111",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "mandate": {
+        "type": "commercial",
+        "provider_selection": {
+          "type": "user_selected"
+        },
+        "beneficiary": {
+          "type": "merchant_account",
+          "merchant_account_id": "e83c6b8e-5a3c-4b2d-a1f0-9c8b7d6e5f4a"
+        }
+      },
+      "currency": "GBP",
+      "user": {
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      },
+      "constraints": {
+        "valid_from": "2026-05-03T00:00:00Z",
+        "valid_to": "2027-05-03T00:00:00Z",
+        "maximum_individual_amount": 50000,
+        "periodic_limits": [
+          {
+            "period": "month",
+            "maximum_amount": 200000
+          }
+        ]
+      },
+      "metadata": {
+        "subscription_id": "SUB-789"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "user": {
+        "id": "d4e5f6a7-b8c9-0123-defa-234567890123"
+      },
+      "resource_token": "eyJhbGciOiJFUzUxMiIsImtpZCI6....(15 min expiry)",
+      "status": "authorization_required"
+    }
+  }
+}

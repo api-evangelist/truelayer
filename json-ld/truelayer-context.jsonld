@@ -1,0 +1,55 @@
+{
+  "@context": {
+    "@vocab": "https://schema.truelayer.com/",
+    "schema": "https://schema.org/",
+    "fibo": "https://spec.edmcouncil.org/fibo/ontology/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Payment": "schema:PayAction",
+    "Mandate": "schema:SubscribeAction",
+    "Payout": "schema:TransferAction",
+    "Refund": "schema:RefundAction",
+    "MerchantAccount": "schema:BankAccount",
+
+    "id": "@id",
+    "amount_in_minor": "paymentAmountMinorUnits",
+    "currency": "schema:priceCurrency",
+    "status": "schema:status",
+    "payment_method": "schema:paymentMethod",
+    "beneficiary": "schema:recipient",
+    "user": "schema:customer",
+    "name": "schema:name",
+    "email": "schema:email",
+    "phone": "schema:telephone",
+    "date_of_birth": {
+      "@id": "schema:birthDate",
+      "@type": "xsd:date"
+    },
+    "created_at": {
+      "@id": "schema:startDate",
+      "@type": "xsd:dateTime"
+    },
+    "executed_at": {
+      "@id": "schema:endDate",
+      "@type": "xsd:dateTime"
+    },
+    "settled_at": {
+      "@id": "schema:dateReceived",
+      "@type": "xsd:dateTime"
+    },
+    "account_identifier": "schema:bankAccountType",
+    "sort_code": "bankSortCode",
+    "account_number": "schema:accountId",
+    "iban": "bankIBAN",
+    "merchant_account_id": {
+      "@id": "schema:financialProduct",
+      "@type": "@id"
+    },
+    "available_balance_in_minor": "accountBalanceMinorUnits",
+    "metadata": "schema:additionalProperty",
+    "reference": "schema:paymentStatus",
+    "constraints": "paymentConstraints",
+    "type": "schema:additionalType",
+    "resource_token": "accessToken"
+  }
+}

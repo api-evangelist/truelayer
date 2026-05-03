@@ -1,0 +1,1023 @@
+openapi: 3.0.3
+info:
+  title: TrueLayer Payments API
+  description: >-
+    The TrueLayer Payments API v3 enables applications to create and manage
+    open banking payments, payouts, refunds, and variable recurring payment
+    mandates across the UK and EU. TrueLayer connects to 69+ banks and provides
+    a unified interface for instant bank payments using open banking rails.
+    Authentication requires signed requests with private keys and OAuth2 access tokens.
+  version: 3.0.0
+  contact:
+    name: TrueLayer Support
+    url: https://docs.truelayer.com
+  termsOfService: https://truelayer.com/legal/
+servers:
+  - url: https://api.truelayer.com
+    description: TrueLayer Production API
+  - url: https://api.truelayer-sandbox.com
+    description: TrueLayer Sandbox (testing)
+security:
+  - BearerAuth: []
+tags:
+  - name: Payments
+    description: Create and manage individual bank payments
+  - name: Mandates
+    description: Variable recurring payment mandates
+  - name: Payouts
+    description: Payments from merchant accounts to users
+  - name: Refunds
+    description: Refund payments back to users
+  - name: Merchant Accounts
+    description: Merchant account management and balance
+  - name: Payment Links
+    description: Hosted payment link management
+paths:
+  /v3/payments:
+    post:
+      summary: Create Payment
+      description: >-
+        Initiate a new payment via open banking. Supports closed-loop pay-ins
+        to merchant accounts, single payments to external accounts, and
+        mandate-based VRP payments. All POST requests must include a
+        Tl-Signature header and Idempotency-Key.
+      operationId: createPayment
+      tags:
+        - Payments
+      parameters:
+        - name: Tl-Signature
+          in: header
+          required: true
+          description: Request signing signature (detached JWS)
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: UUID for idempotent request deduplication
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentRequest'
+      responses:
+        '200':
+          description: Payment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePaymentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /v3/payments/{id}:
+    get:
+      summary: Get Payment
+      description: Retrieve the current status and details of a payment.
+      operationId: getPayment
+      tags:
+        - Payments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Payment UUID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/payments/{id}/authorization-flow:
+    post:
+      summary: Start Authorization Flow
+      description: >-
+        Start or continue the payment authorization flow. Used when
+        implementing a custom authorization journey.
+      operationId: startAuthorizationFlow
+      tags:
+        - Payments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: Tl-Signature
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider_selection:
+                  type: object
+                  description: Selected provider for authorization
+                  properties:
+                    provider_id:
+                      type: string
+                scheme_selection:
+                  type: object
+                  description: Payment scheme selection
+                redirect:
+                  type: object
+                  properties:
+                    return_uri:
+                      type: string
+                      format: uri
+      responses:
+        '200':
+          description: Authorization flow started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorization_flow:
+                    type: object
+                    properties:
+                      actions:
+                        type: object
+                      configuration:
+                        type: object
+                  status:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/payments/{id}/refunds:
+    post:
+      summary: Create Refund
+      description: Initiate a refund for a completed payment.
+      operationId: createRefund
+      tags:
+        - Refunds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Payment UUID to refund
+          schema:
+            type: string
+            format: uuid
+        - name: Tl-Signature
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount_in_minor
+              properties:
+                amount_in_minor:
+                  type: integer
+                  description: Refund amount in minor currency units
+                reference:
+                  type: string
+                  description: Reference shown on user's bank statement
+                metadata:
+                  type: object
+                  description: Up to 10 custom key-value pairs
+      responses:
+        '200':
+          description: Refund initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - authorized
+                      - executed
+                      - failed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    get:
+      summary: List Payment Refunds
+      description: Returns all refunds for a specific payment.
+      operationId: listPaymentRefunds
+      tags:
+        - Refunds
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of refunds
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        amount_in_minor:
+                          type: integer
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date-time
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/mandates:
+    post:
+      summary: Create Mandate
+      description: >-
+        Create a Variable Recurring Payment (VRP) mandate. A mandate authorizes
+        the payee to initiate future payments within defined parameters.
+      operationId: createMandate
+      tags:
+        - Mandates
+      parameters:
+        - name: Tl-Signature
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMandateRequest'
+      responses:
+        '200':
+          description: Mandate created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMandateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/mandates/{id}:
+    get:
+      summary: Get Mandate
+      description: Retrieve a mandate by ID.
+      operationId: getMandate
+      tags:
+        - Mandates
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Mandate details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mandate'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Revoke Mandate
+      description: Revoke an active VRP mandate.
+      operationId: revokeMandate
+      tags:
+        - Mandates
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: Tl-Signature
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Mandate revoked
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/payouts:
+    post:
+      summary: Create Payout
+      description: >-
+        Initiate a payout from a merchant account to a user or external account.
+        Used for refunds, withdrawals, and disbursements.
+      operationId: createPayout
+      tags:
+        - Payouts
+      parameters:
+        - name: Tl-Signature
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePayoutRequest'
+      responses:
+        '200':
+          description: Payout initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - authorized
+                      - executed
+                      - failed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/payouts/{id}:
+    get:
+      summary: Get Payout
+      description: Retrieve the status of a payout.
+      operationId: getPayout
+      tags:
+        - Payouts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Payout details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  merchant_account_id:
+                    type: string
+                    format: uuid
+                  amount_in_minor:
+                    type: integer
+                  currency:
+                    type: string
+                  beneficiary:
+                    type: object
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - authorized
+                      - executed
+                      - failed
+                  created_at:
+                    type: string
+                    format: date-time
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/merchant-accounts:
+    get:
+      summary: List Merchant Accounts
+      description: Returns all merchant accounts for the integration.
+      operationId: listMerchantAccounts
+      tags:
+        - Merchant Accounts
+      responses:
+        '200':
+          description: List of merchant accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MerchantAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/merchant-accounts/{id}:
+    get:
+      summary: Get Merchant Account
+      description: Retrieve a merchant account and its current balance.
+      operationId: getMerchantAccount
+      tags:
+        - Merchant Accounts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Merchant account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/merchant-accounts/{id}/transactions:
+    get:
+      summary: List Merchant Account Transactions
+      description: Returns transactions for a merchant account.
+      operationId: listMerchantAccountTransactions
+      tags:
+        - Merchant Accounts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: from
+          in: query
+          description: Start date-time filter (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          description: End date-time filter (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: cursor
+          in: query
+          description: Pagination cursor
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Merchant account transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                            - payment
+                            - payout
+                            - refund
+                        amount_in_minor:
+                          type: integer
+                        currency:
+                          type: string
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date-time
+                  next_cursor:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth2 access token with payments scope
+  schemas:
+    CreatePaymentRequest:
+      type: object
+      required:
+        - amount_in_minor
+        - currency
+        - payment_method
+        - user
+      properties:
+        amount_in_minor:
+          type: integer
+          description: Amount in minor currency units (e.g., pence for GBP)
+          minimum: 1
+        currency:
+          type: string
+          enum:
+            - GBP
+            - EUR
+          description: ISO 4217 currency code
+        payment_method:
+          type: object
+          required:
+            - type
+            - beneficiary
+          properties:
+            type:
+              type: string
+              enum:
+                - bank_transfer
+                - mandate
+            provider_selection:
+              type: object
+              description: How to select the payment provider
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - user_selected
+                    - preselected
+                provider_id:
+                  type: string
+                  description: Required when type=preselected
+                filter:
+                  type: object
+                  description: Constraints for provider selection
+            scheme_selection:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - instant_only
+                    - instant_preferred
+                    - user_selected
+                    - preselected
+            beneficiary:
+              type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - merchant_account
+                    - external_account
+                merchant_account_id:
+                  type: string
+                  format: uuid
+                  description: Required when type=merchant_account
+                account_holder_name:
+                  type: string
+                account_identifier:
+                  type: object
+                  description: Required when type=external_account
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - sort_code_account_number
+                        - iban
+                        - bban
+                        - nrb
+                    sort_code:
+                      type: string
+                    account_number:
+                      type: string
+                    iban:
+                      type: string
+        user:
+          type: object
+          required:
+            - name
+          properties:
+            id:
+              type: string
+              description: Your internal user ID (optional)
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+            phone:
+              type: string
+            date_of_birth:
+              type: string
+              format: date
+            address:
+              type: object
+        metadata:
+          type: object
+          description: Up to 10 custom key-value string pairs
+          maxProperties: 10
+          additionalProperties:
+            type: string
+    CreatePaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Payment ID
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT token for client-side payment authorization (15 min expiry)
+        status:
+          type: string
+          enum:
+            - authorization_required
+          description: Initial status after creation
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        amount_in_minor:
+          type: integer
+        currency:
+          type: string
+        payment_method:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+            - authorization_required
+            - authorizing
+            - authorized
+            - executed
+            - settled
+            - failed
+            - pending
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        executed_at:
+          type: string
+          format: date-time
+        settled_at:
+          type: string
+          format: date-time
+        failure_reason:
+          type: string
+    CreateMandateRequest:
+      type: object
+      required:
+        - mandate
+        - currency
+        - user
+      properties:
+        mandate:
+          type: object
+          required:
+            - type
+            - beneficiary
+          properties:
+            type:
+              type: string
+              enum:
+                - commercial
+                - sweeping
+              description: Mandate type (commercial = to any account, sweeping = own accounts)
+            provider_selection:
+              type: object
+            beneficiary:
+              type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - merchant_account
+                    - external_account
+                merchant_account_id:
+                  type: string
+                  format: uuid
+                account_holder_name:
+                  type: string
+                account_identifier:
+                  type: object
+        currency:
+          type: string
+          enum:
+            - GBP
+            - EUR
+        user:
+          type: object
+          required:
+            - name
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+        constraints:
+          type: object
+          description: Limits on mandate usage
+          properties:
+            valid_from:
+              type: string
+              format: date-time
+            valid_to:
+              type: string
+              format: date-time
+            maximum_individual_amount:
+              type: integer
+            periodic_limits:
+              type: array
+              items:
+                type: object
+                properties:
+                  maximum_amount:
+                    type: integer
+                  period:
+                    type: string
+                    enum:
+                      - day
+                      - week
+                      - fortnight
+                      - month
+                      - half_year
+                      - year
+        metadata:
+          type: object
+    CreateMandateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT for mandate authorization
+        status:
+          type: string
+          enum:
+            - authorization_required
+    Mandate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        mandate:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+            - authorization_required
+            - authorizing
+            - authorized
+            - revoked
+            - failed
+        constraints:
+          type: object
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        authorized_at:
+          type: string
+          format: date-time
+        revoked_at:
+          type: string
+          format: date-time
+    CreatePayoutRequest:
+      type: object
+      required:
+        - merchant_account_id
+        - amount_in_minor
+        - currency
+        - beneficiary
+      properties:
+        merchant_account_id:
+          type: string
+          format: uuid
+          description: Source merchant account
+        amount_in_minor:
+          type: integer
+          minimum: 1
+        currency:
+          type: string
+          enum:
+            - GBP
+            - EUR
+        beneficiary:
+          type: object
+          required:
+            - type
+            - account_holder_name
+          properties:
+            type:
+              type: string
+              enum:
+                - external_account
+                - payment_source
+              description: payment_source uses a source from previous payment
+            account_holder_name:
+              type: string
+            account_identifier:
+              type: object
+              description: Required when type=external_account
+            payment_source_id:
+              type: string
+              description: Required when type=payment_source
+            user_id:
+              type: string
+              description: Required when type=payment_source
+        reference:
+          type: string
+          description: Reference shown on recipient's bank statement
+        metadata:
+          type: object
+    MerchantAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        account_identifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              sort_code:
+                type: string
+              account_number:
+                type: string
+              iban:
+                type: string
+        available_balance_in_minor:
+          type: integer
+          description: Available balance in minor currency units
+        current_balance_in_minor:
+          type: integer
+          description: Current balance including pending settlements
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    UnprocessableEntity:
+      description: Unprocessable entity - business logic error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              errors:
+                type: object

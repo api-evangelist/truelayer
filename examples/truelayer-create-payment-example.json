@@ -1,0 +1,51 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.truelayer.com/v3/payments",
+    "headers": {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      "Tl-Signature": "YOUR_JWS_SIGNATURE",
+      "Idempotency-Key": "550e8400-e29b-41d4-a716-446655440000",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "amount_in_minor": 10000,
+      "currency": "GBP",
+      "payment_method": {
+        "type": "bank_transfer",
+        "provider_selection": {
+          "type": "user_selected",
+          "filter": {
+            "countries": ["GB"],
+            "release_channel": "general_availability"
+          }
+        },
+        "beneficiary": {
+          "type": "merchant_account",
+          "merchant_account_id": "e83c6b8e-5a3c-4b2d-a1f0-9c8b7d6e5f4a",
+          "account_holder_name": "Acme Ltd"
+        }
+      },
+      "user": {
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+447700123456"
+      },
+      "metadata": {
+        "order_id": "ORD-12345",
+        "customer_ref": "CUST-ABC"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "user": {
+        "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+      },
+      "resource_token": "eyJhbGciOiJFUzUxMiIsImtpZCI6....(15 min expiry)",
+      "status": "authorization_required"
+    }
+  }
+}

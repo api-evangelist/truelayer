@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.truelayer.com/schemas/payment",
+  "title": "Payment",
+  "description": "A TrueLayer open banking payment",
+  "type": "object",
+  "required": ["id", "amount_in_minor", "currency", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique payment identifier"
+    },
+    "amount_in_minor": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Payment amount in minor currency units (e.g., pence for GBP)"
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["GBP", "EUR"],
+      "description": "ISO 4217 currency code"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "authorization_required",
+        "authorizing",
+        "authorized",
+        "executed",
+        "settled",
+        "failed",
+        "pending"
+      ],
+      "description": "Current payment lifecycle status"
+    },
+    "payment_method": {
+      "type": "object",
+      "description": "Payment method configuration",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["bank_transfer", "mandate"]
+        },
+        "beneficiary": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["merchant_account", "external_account"]
+            },
+            "merchant_account_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "account_holder_name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Up to 10 custom key-value pairs",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "settled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "failure_reason": {
+      "type": "string",
+      "description": "Reason for payment failure"
+    }
+  },
+  "additionalProperties": false
+}
