@@ -1,339 +1,546 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "TrueLayer Open Banking Payments"
-  description: >-
-    Workflow capability for open banking payment operations via TrueLayer.
-    Covers the full payment lifecycle: creating payments and mandates,
-    handling payouts, processing refunds, and monitoring merchant account
-    balances and transactions across UK and EU open banking rails.
-    Used by fintech developers, payment teams, and financial platforms.
+  label: TrueLayer Open Banking Payments
+  description: 'Workflow capability for open banking payment operations via TrueLayer. Covers the full payment lifecycle:
+    creating payments and mandates, handling payouts, processing refunds, and monitoring merchant account balances and transactions
+    across UK and EU open banking rails. Used by fintech developers, payment teams, and financial platforms.'
   tags:
-    - TrueLayer
-    - Open Banking
-    - Payments
-    - VRP
-    - Payouts
-    - Refunds
-    - Merchant Accounts
-    - UK Banking
-    - EU Banking
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - TrueLayer
+  - Open Banking
+  - Payments
+  - VRP
+  - Payouts
+  - Refunds
+  - Merchant Accounts
+  - UK Banking
+  - EU Banking
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      TRUELAYER_ACCESS_TOKEN: TRUELAYER_ACCESS_TOKEN
-      TRUELAYER_SIGNING_KEY: TRUELAYER_SIGNING_KEY
-
+- namespace: env
+  keys:
+    TRUELAYER_ACCESS_TOKEN: TRUELAYER_ACCESS_TOKEN
+    TRUELAYER_SIGNING_KEY: TRUELAYER_SIGNING_KEY
 capability:
   consumes:
-    - import: truelayer-payments
-      location: ./shared/truelayer-payments.yaml
-
+  - type: http
+    namespace: truelayer-payments
+    baseUri: https://api.truelayer.com
+    description: TrueLayer Payments API v3
+    authentication:
+      type: bearer
+      token: '{{TRUELAYER_ACCESS_TOKEN}}'
+    resources:
+    - name: payments
+      path: /v3/payments
+      description: Payment creation and management
+      operations:
+      - name: create-payment
+        method: POST
+        description: Create a new bank payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            amount_in_minor: '{{tools.amount_in_minor}}'
+            currency: '{{tools.currency}}'
+            payment_method: '{{tools.payment_method}}'
+            user: '{{tools.user}}'
+            metadata: '{{tools.metadata}}'
+    - name: payment
+      path: /v3/payments/{id}
+      description: Individual payment operations
+      operations:
+      - name: get-payment
+        method: GET
+        description: Get payment status and details
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: Payment UUID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: payment-refunds
+      path: /v3/payments/{id}/refunds
+      description: Refund management for payments
+      operations:
+      - name: create-refund
+        method: POST
+        description: Create a refund for a payment
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            amount_in_minor: '{{tools.amount_in_minor}}'
+            reference: '{{tools.reference}}'
+      - name: list-payment-refunds
+        method: GET
+        description: List refunds for a payment
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: mandates
+      path: /v3/mandates
+      description: VRP mandate management
+      operations:
+      - name: create-mandate
+        method: POST
+        description: Create a VRP mandate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            mandate: '{{tools.mandate}}'
+            currency: '{{tools.currency}}'
+            user: '{{tools.user}}'
+            constraints: '{{tools.constraints}}'
+    - name: mandate
+      path: /v3/mandates/{id}
+      description: Individual mandate operations
+      operations:
+      - name: get-mandate
+        method: GET
+        description: Get mandate by ID
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: revoke-mandate
+        method: DELETE
+        description: Revoke a VRP mandate
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: payouts
+      path: /v3/payouts
+      description: Merchant account payouts
+      operations:
+      - name: create-payout
+        method: POST
+        description: Create a payout from merchant account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            merchant_account_id: '{{tools.merchant_account_id}}'
+            amount_in_minor: '{{tools.amount_in_minor}}'
+            currency: '{{tools.currency}}'
+            beneficiary: '{{tools.beneficiary}}'
+    - name: payout
+      path: /v3/payouts/{id}
+      description: Individual payout status
+      operations:
+      - name: get-payout
+        method: GET
+        description: Get payout status
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: merchant-accounts
+      path: /v3/merchant-accounts
+      description: Merchant account management
+      operations:
+      - name: list-merchant-accounts
+        method: GET
+        description: List all merchant accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: merchant-account
+      path: /v3/merchant-accounts/{id}
+      description: Individual merchant account
+      operations:
+      - name: get-merchant-account
+        method: GET
+        description: Get merchant account and balance
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: merchant-account-transactions
+      path: /v3/merchant-accounts/{id}/transactions
+      description: Merchant account transaction history
+      operations:
+      - name: list-merchant-account-transactions
+        method: GET
+        description: List merchant account transactions
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: from
+          in: query
+          type: string
+          required: false
+        - name: to
+          in: query
+          type: string
+          required: false
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: truelayer-open-banking-api
-      description: "Unified REST API for TrueLayer open banking payment operations."
-      resources:
-        - path: /v1/payments
-          name: payments
-          description: "Payment lifecycle management"
-          operations:
-            - method: POST
-              name: create-payment
-              description: "Create a new open banking payment"
-              call: "truelayer-payments.create-payment"
-              with:
-                amount_in_minor: "rest.amount_in_minor"
-                currency: "rest.currency"
-                payment_method: "rest.payment_method"
-                user: "rest.user"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/payments/{id}
-          name: payment
-          operations:
-            - method: GET
-              name: get-payment
-              description: "Get payment status"
-              call: "truelayer-payments.get-payment"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/payments/{id}/refunds
-          name: payment-refunds
-          operations:
-            - method: POST
-              name: create-refund
-              description: "Create a refund for a payment"
-              call: "truelayer-payments.create-refund"
-              with:
-                id: "rest.id"
-                amount_in_minor: "rest.amount_in_minor"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: GET
-              name: list-payment-refunds
-              description: "List refunds for a payment"
-              call: "truelayer-payments.list-payment-refunds"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/mandates
-          name: mandates
-          description: "Variable recurring payment mandates"
-          operations:
-            - method: POST
-              name: create-mandate
-              description: "Create a VRP mandate"
-              call: "truelayer-payments.create-mandate"
-              with:
-                mandate: "rest.mandate"
-                currency: "rest.currency"
-                user: "rest.user"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/mandates/{id}
-          name: mandate
-          operations:
-            - method: GET
-              name: get-mandate
-              description: "Get mandate details"
-              call: "truelayer-payments.get-mandate"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: DELETE
-              name: revoke-mandate
-              description: "Revoke a VRP mandate"
-              call: "truelayer-payments.revoke-mandate"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/payouts
-          name: payouts
-          description: "Merchant account payouts"
-          operations:
-            - method: POST
-              name: create-payout
-              description: "Create a payout"
-              call: "truelayer-payments.create-payout"
-              with:
-                merchant_account_id: "rest.merchant_account_id"
-                amount_in_minor: "rest.amount_in_minor"
-                currency: "rest.currency"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/payouts/{id}
-          name: payout
-          operations:
-            - method: GET
-              name: get-payout
-              description: "Get payout status"
-              call: "truelayer-payments.get-payout"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/merchant-accounts
-          name: merchant-accounts
-          description: "Merchant account management"
-          operations:
-            - method: GET
-              name: list-merchant-accounts
-              description: "List merchant accounts"
-              call: "truelayer-payments.list-merchant-accounts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/merchant-accounts/{id}
-          name: merchant-account
-          operations:
-            - method: GET
-              name: get-merchant-account
-              description: "Get merchant account and balance"
-              call: "truelayer-payments.get-merchant-account"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/merchant-accounts/{id}/transactions
-          name: merchant-account-transactions
-          operations:
-            - method: GET
-              name: list-merchant-account-transactions
-              description: "List merchant account transactions"
-              call: "truelayer-payments.list-merchant-account-transactions"
-              with:
-                id: "rest.id"
-                from: "rest.from"
-                to: "rest.to"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: truelayer-open-banking-mcp
-      transport: http
-      description: "MCP server for AI-assisted open banking payment operations via TrueLayer."
-      tools:
-        - name: create-payment
-          description: >-
-            Create an open banking bank-transfer payment via TrueLayer.
-            Supports pay-ins to merchant accounts and single payments to
-            external accounts. Requires amount in minor units (pence/cents).
-          hints:
-            readOnly: false
-          call: "truelayer-payments.create-payment"
-          with:
-            amount_in_minor: "tools.amount_in_minor"
-            currency: "tools.currency"
-            payment_method: "tools.payment_method"
-            user: "tools.user"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-payment
-          description: "Get the current status and details of a payment"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "truelayer-payments.get-payment"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-refund
-          description: "Initiate a refund for a completed payment"
-          hints:
-            readOnly: false
-          call: "truelayer-payments.create-refund"
-          with:
-            id: "tools.id"
-            amount_in_minor: "tools.amount_in_minor"
-            reference: "tools.reference"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-payment-refunds
-          description: "List all refunds for a specific payment"
-          hints:
-            readOnly: true
-          call: "truelayer-payments.list-payment-refunds"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-mandate
-          description: >-
-            Create a Variable Recurring Payment (VRP) mandate. Authorizes
-            future payments within defined constraints (limits, frequency).
-          hints:
-            readOnly: false
-          call: "truelayer-payments.create-mandate"
-          with:
-            mandate: "tools.mandate"
-            currency: "tools.currency"
-            user: "tools.user"
-            constraints: "tools.constraints"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-mandate
-          description: "Get VRP mandate status and details"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "truelayer-payments.get-mandate"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: revoke-mandate
-          description: "Revoke an active VRP mandate"
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "truelayer-payments.revoke-mandate"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-payout
-          description: "Create a payout from merchant account to a user or external account"
-          hints:
-            readOnly: false
-          call: "truelayer-payments.create-payout"
-          with:
-            merchant_account_id: "tools.merchant_account_id"
-            amount_in_minor: "tools.amount_in_minor"
-            currency: "tools.currency"
-            beneficiary: "tools.beneficiary"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-payout
-          description: "Get payout status"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "truelayer-payments.get-payout"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-merchant-accounts
-          description: "List all TrueLayer merchant accounts with balances"
-          hints:
-            readOnly: true
-          call: "truelayer-payments.list-merchant-accounts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-merchant-account
-          description: "Get merchant account details and current balance"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "truelayer-payments.get-merchant-account"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-merchant-account-transactions
-          description: "List transactions for a merchant account with date filters"
-          hints:
-            readOnly: true
-          call: "truelayer-payments.list-merchant-account-transactions"
-          with:
-            id: "tools.id"
-            from: "tools.from"
-            to: "tools.to"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: truelayer-open-banking-api
+    description: Unified REST API for TrueLayer open banking payment operations.
+    resources:
+    - path: /v1/payments
+      name: payments
+      description: Payment lifecycle management
+      operations:
+      - method: POST
+        name: create-payment
+        description: Create a new open banking payment
+        call: truelayer-payments.create-payment
+        with:
+          amount_in_minor: rest.amount_in_minor
+          currency: rest.currency
+          payment_method: rest.payment_method
+          user: rest.user
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{id}
+      name: payment
+      operations:
+      - method: GET
+        name: get-payment
+        description: Get payment status
+        call: truelayer-payments.get-payment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{id}/refunds
+      name: payment-refunds
+      operations:
+      - method: POST
+        name: create-refund
+        description: Create a refund for a payment
+        call: truelayer-payments.create-refund
+        with:
+          id: rest.id
+          amount_in_minor: rest.amount_in_minor
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: list-payment-refunds
+        description: List refunds for a payment
+        call: truelayer-payments.list-payment-refunds
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/mandates
+      name: mandates
+      description: Variable recurring payment mandates
+      operations:
+      - method: POST
+        name: create-mandate
+        description: Create a VRP mandate
+        call: truelayer-payments.create-mandate
+        with:
+          mandate: rest.mandate
+          currency: rest.currency
+          user: rest.user
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/mandates/{id}
+      name: mandate
+      operations:
+      - method: GET
+        name: get-mandate
+        description: Get mandate details
+        call: truelayer-payments.get-mandate
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: revoke-mandate
+        description: Revoke a VRP mandate
+        call: truelayer-payments.revoke-mandate
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payouts
+      name: payouts
+      description: Merchant account payouts
+      operations:
+      - method: POST
+        name: create-payout
+        description: Create a payout
+        call: truelayer-payments.create-payout
+        with:
+          merchant_account_id: rest.merchant_account_id
+          amount_in_minor: rest.amount_in_minor
+          currency: rest.currency
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payouts/{id}
+      name: payout
+      operations:
+      - method: GET
+        name: get-payout
+        description: Get payout status
+        call: truelayer-payments.get-payout
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchant-accounts
+      name: merchant-accounts
+      description: Merchant account management
+      operations:
+      - method: GET
+        name: list-merchant-accounts
+        description: List merchant accounts
+        call: truelayer-payments.list-merchant-accounts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchant-accounts/{id}
+      name: merchant-account
+      operations:
+      - method: GET
+        name: get-merchant-account
+        description: Get merchant account and balance
+        call: truelayer-payments.get-merchant-account
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchant-accounts/{id}/transactions
+      name: merchant-account-transactions
+      operations:
+      - method: GET
+        name: list-merchant-account-transactions
+        description: List merchant account transactions
+        call: truelayer-payments.list-merchant-account-transactions
+        with:
+          id: rest.id
+          from: rest.from
+          to: rest.to
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: truelayer-open-banking-mcp
+    transport: http
+    description: MCP server for AI-assisted open banking payment operations via TrueLayer.
+    tools:
+    - name: create-payment
+      description: Create an open banking bank-transfer payment via TrueLayer. Supports pay-ins to merchant accounts and single
+        payments to external accounts. Requires amount in minor units (pence/cents).
+      hints:
+        readOnly: false
+      call: truelayer-payments.create-payment
+      with:
+        amount_in_minor: tools.amount_in_minor
+        currency: tools.currency
+        payment_method: tools.payment_method
+        user: tools.user
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-payment
+      description: Get the current status and details of a payment
+      hints:
+        readOnly: true
+        idempotent: true
+      call: truelayer-payments.get-payment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-refund
+      description: Initiate a refund for a completed payment
+      hints:
+        readOnly: false
+      call: truelayer-payments.create-refund
+      with:
+        id: tools.id
+        amount_in_minor: tools.amount_in_minor
+        reference: tools.reference
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-payment-refunds
+      description: List all refunds for a specific payment
+      hints:
+        readOnly: true
+      call: truelayer-payments.list-payment-refunds
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-mandate
+      description: Create a Variable Recurring Payment (VRP) mandate. Authorizes future payments within defined constraints
+        (limits, frequency).
+      hints:
+        readOnly: false
+      call: truelayer-payments.create-mandate
+      with:
+        mandate: tools.mandate
+        currency: tools.currency
+        user: tools.user
+        constraints: tools.constraints
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-mandate
+      description: Get VRP mandate status and details
+      hints:
+        readOnly: true
+        idempotent: true
+      call: truelayer-payments.get-mandate
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: revoke-mandate
+      description: Revoke an active VRP mandate
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: truelayer-payments.revoke-mandate
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-payout
+      description: Create a payout from merchant account to a user or external account
+      hints:
+        readOnly: false
+      call: truelayer-payments.create-payout
+      with:
+        merchant_account_id: tools.merchant_account_id
+        amount_in_minor: tools.amount_in_minor
+        currency: tools.currency
+        beneficiary: tools.beneficiary
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-payout
+      description: Get payout status
+      hints:
+        readOnly: true
+        idempotent: true
+      call: truelayer-payments.get-payout
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-merchant-accounts
+      description: List all TrueLayer merchant accounts with balances
+      hints:
+        readOnly: true
+      call: truelayer-payments.list-merchant-accounts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-merchant-account
+      description: Get merchant account details and current balance
+      hints:
+        readOnly: true
+        idempotent: true
+      call: truelayer-payments.get-merchant-account
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-merchant-account-transactions
+      description: List transactions for a merchant account with date filters
+      hints:
+        readOnly: true
+      call: truelayer-payments.list-merchant-account-transactions
+      with:
+        id: tools.id
+        from: tools.from
+        to: tools.to
+      outputParameters:
+      - type: object
+        mapping: $.
