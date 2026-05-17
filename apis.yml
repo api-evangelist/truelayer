@@ -41,7 +41,7 @@ apis:
     properties:
       - type: Documentation
         url: https://docs.truelayer.com/docs/payments-api-basics
-      - type: Getting Started
+      - type: GettingStarted
         url: https://docs.truelayer.com/docs/create-a-payment
       - type: Webhooks
         url: https://docs.truelayer.com/docs/payments-api-webhook-reference
@@ -82,9 +82,9 @@ common:
     url: https://truelayer.com/
   - type: Documentation
     url: https://docs.truelayer.com/
-  - type: API Reference
+  - type: APIReference
     url: https://docs.truelayer.com/reference
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/TrueLayer
   - type: Console
     url: https://console.truelayer.com/
@@ -92,7 +92,7 @@ common:
     url: https://console.truelayer-sandbox.com/
   - type: SDKs
     url: https://docs.truelayer.com/docs/client-libraries
-  - type: Changelog
+  - type: ChangeLog
     url: https://docs.truelayer.com/changelog
   - type: Blog
     url: https://truelayer.com/blog/
