@@ -19,7 +19,7 @@ tags:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-05-03'
+modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
   - aid: truelayer:payments-api
@@ -100,6 +100,9 @@ common:
     url: https://www.linkedin.com/company/truelayer/
   - type: Twitter
     url: https://twitter.com/TrueLayer
+  - name: MCP Server
+    url: https://github.com/TrueLayer/truelayer_mcp
+    type: MCPServer
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
