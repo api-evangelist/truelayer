@@ -1,0 +1,196 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: TrueLayer Payments API — Payments
+  description: 'TrueLayer Payments API — Payments. 3 operations. Lead operation: Create Payment. Self-contained Naftiko capability
+    covering one Truelayer business surface.'
+  tags:
+  - Truelayer
+  - Payments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TRUELAYER_API_KEY: TRUELAYER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payments-payments
+    baseUri: https://api.truelayer.com
+    description: TrueLayer Payments API — Payments business capability. Self-contained, no shared references.
+    resources:
+    - name: v3-payments
+      path: /v3/payments
+      operations:
+      - name: createpayment
+        method: POST
+        description: Create Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Tl-Signature
+          in: header
+          type: string
+          description: Request signing signature (detached JWS)
+          required: true
+        - name: Idempotency-Key
+          in: header
+          type: string
+          description: UUID for idempotent request deduplication
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v3-payments-id
+      path: /v3/payments/{id}
+      operations:
+      - name: getpayment
+        method: GET
+        description: Get Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Payment UUID
+          required: true
+    - name: v3-payments-id-authorization-flow
+      path: /v3/payments/{id}/authorization-flow
+      operations:
+      - name: startauthorizationflow
+        method: POST
+        description: Start Authorization Flow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: Tl-Signature
+          in: header
+          type: string
+          required: true
+        - name: Idempotency-Key
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TRUELAYER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: payments-payments-rest
+    port: 8080
+    description: REST adapter for TrueLayer Payments API — Payments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v3/payments
+      name: v3-payments
+      description: REST surface for v3-payments.
+      operations:
+      - method: POST
+        name: createpayment
+        description: Create Payment
+        call: payments-payments.createpayment
+        with:
+          Tl-Signature: rest.Tl-Signature
+          Idempotency-Key: rest.Idempotency-Key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v3/payments/{id}
+      name: v3-payments-id
+      description: REST surface for v3-payments-id.
+      operations:
+      - method: GET
+        name: getpayment
+        description: Get Payment
+        call: payments-payments.getpayment
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v3/payments/{id}/authorization-flow
+      name: v3-payments-id-authorization-flow
+      description: REST surface for v3-payments-id-authorization-flow.
+      operations:
+      - method: POST
+        name: startauthorizationflow
+        description: Start Authorization Flow
+        call: payments-payments.startauthorizationflow
+        with:
+          id: rest.id
+          Tl-Signature: rest.Tl-Signature
+          Idempotency-Key: rest.Idempotency-Key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payments-payments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for TrueLayer Payments API — Payments. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-payment
+      description: Create Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payments-payments.createpayment
+      with:
+        Tl-Signature: tools.Tl-Signature
+        Idempotency-Key: tools.Idempotency-Key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-payment
+      description: Get Payment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: payments-payments.getpayment
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-authorization-flow
+      description: Start Authorization Flow
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payments-payments.startauthorizationflow
+      with:
+        id: tools.id
+        Tl-Signature: tools.Tl-Signature
+        Idempotency-Key: tools.Idempotency-Key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

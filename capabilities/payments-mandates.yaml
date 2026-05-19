@@ -1,0 +1,173 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: TrueLayer Payments API — Mandates
+  description: 'TrueLayer Payments API — Mandates. 3 operations. Lead operation: Create Mandate. Self-contained Naftiko capability
+    covering one Truelayer business surface.'
+  tags:
+  - Truelayer
+  - Mandates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TRUELAYER_API_KEY: TRUELAYER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payments-mandates
+    baseUri: https://api.truelayer.com
+    description: TrueLayer Payments API — Mandates business capability. Self-contained, no shared references.
+    resources:
+    - name: v3-mandates
+      path: /v3/mandates
+      operations:
+      - name: createmandate
+        method: POST
+        description: Create Mandate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Tl-Signature
+          in: header
+          type: string
+          required: true
+        - name: Idempotency-Key
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v3-mandates-id
+      path: /v3/mandates/{id}
+      operations:
+      - name: getmandate
+        method: GET
+        description: Get Mandate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      - name: revokemandate
+        method: DELETE
+        description: Revoke Mandate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+        - name: Tl-Signature
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TRUELAYER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: payments-mandates-rest
+    port: 8080
+    description: REST adapter for TrueLayer Payments API — Mandates. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v3/mandates
+      name: v3-mandates
+      description: REST surface for v3-mandates.
+      operations:
+      - method: POST
+        name: createmandate
+        description: Create Mandate
+        call: payments-mandates.createmandate
+        with:
+          Tl-Signature: rest.Tl-Signature
+          Idempotency-Key: rest.Idempotency-Key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v3/mandates/{id}
+      name: v3-mandates-id
+      description: REST surface for v3-mandates-id.
+      operations:
+      - method: GET
+        name: getmandate
+        description: Get Mandate
+        call: payments-mandates.getmandate
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: revokemandate
+        description: Revoke Mandate
+        call: payments-mandates.revokemandate
+        with:
+          id: rest.id
+          Tl-Signature: rest.Tl-Signature
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payments-mandates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for TrueLayer Payments API — Mandates. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-mandate
+      description: Create Mandate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payments-mandates.createmandate
+      with:
+        Tl-Signature: tools.Tl-Signature
+        Idempotency-Key: tools.Idempotency-Key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-mandate
+      description: Get Mandate
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: payments-mandates.getmandate
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: revoke-mandate
+      description: Revoke Mandate
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: payments-mandates.revokemandate
+      with:
+        id: tools.id
+        Tl-Signature: tools.Tl-Signature
+      outputParameters:
+      - type: object
+        mapping: $.
