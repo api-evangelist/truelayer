@@ -104,6 +104,8 @@ common:
 - name: MCP Server
   url: https://github.com/TrueLayer/truelayer_mcp
   type: MCPServer
+- type: LLMsTxt
+  url: https://docs.truelayer.com/llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
