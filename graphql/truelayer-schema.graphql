@@ -1,0 +1,713 @@
+"""
+TrueLayer GraphQL Schema
+Covers open banking data, payments, identity, and consent surfaces of the TrueLayer platform.
+"""
+
+# ─── Scalars ─────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar Date
+scalar Decimal
+scalar JSON
+scalar CurrencyCode
+scalar CountryCode
+scalar URI
+
+# ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum BankAccountType {
+  CURRENT
+  SAVINGS
+  LOAN
+  MORTGAGE
+  PENSION
+  CREDIT_CARD
+  OTHER
+}
+
+enum CardType {
+  DEBIT
+  CREDIT
+  PREPAID
+  CHARGE
+  OTHER
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum TransactionStatus {
+  PENDING
+  SETTLED
+  FAILED
+  CANCELLED
+  REVERSED
+}
+
+enum TransactionCategory {
+  BILLS_AND_UTILITIES
+  EATING_AND_DRINKING
+  ENTERTAINMENT
+  GENERAL
+  GROCERIES
+  INCOME
+  SAVINGS
+  SHOPPING
+  TRANSPORT
+  TRAVEL
+  INSURANCE
+  HEALTH_AND_BEAUTY
+  GAMBLING
+  HOME_AND_GARDEN
+  EDUCATION
+  BUSINESS
+  TAX
+  PERSONAL_CARE
+  CHARITY
+  TRANSFER
+  UNKNOWN
+}
+
+enum PaymentStatus {
+  AUTHORIZATION_REQUIRED
+  AUTHORIZING
+  AUTHORIZED
+  EXECUTED
+  SETTLED
+  FAILED
+  CANCELLED
+  EXPIRED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  MANDATE
+  MERCHANT_ACCOUNT
+}
+
+enum ProviderType {
+  BANK
+  CREDIT_CARD
+  INSURANCE
+  INVESTMENT
+  PENSION
+  OTHER
+}
+
+enum ConsentStatus {
+  AWAITING_AUTHORISATION
+  AUTHORISED
+  REJECTED
+  REVOKED
+  EXPIRED
+}
+
+enum ConsentScope {
+  ACCOUNTS
+  BALANCE
+  TRANSACTIONS
+  CARDS
+  IDENTITY
+  DIRECT_DEBITS
+  STANDING_ORDERS
+  OFFLINE_ACCESS
+}
+
+enum AuthFlow {
+  OAUTH
+  CREDENTIALS
+  API_KEY
+}
+
+enum MandateStatus {
+  AUTHORIZATION_REQUIRED
+  AUTHORIZING
+  AUTHORIZED
+  FAILED
+  REVOKED
+  EXPIRED
+}
+
+enum DirectDebitStatus {
+  ACTIVE
+  INACTIVE
+  FAILED
+  CANCELLED
+}
+
+enum StandingOrderStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  EXPIRED
+}
+
+enum ErrorCode {
+  ACCOUNT_NOT_FOUND
+  BALANCE_UNAVAILABLE
+  CONSENT_EXPIRED
+  CONSENT_REVOKED
+  INVALID_TOKEN
+  PROVIDER_ERROR
+  RATE_LIMIT_EXCEEDED
+  UNAUTHORISED
+  UNPROCESSABLE_ENTITY
+  INTERNAL_SERVER_ERROR
+}
+
+# ─── Account Number / Routing Types ──────────────────────────────────────────
+
+type AccountNumber {
+  number: String!
+  sortCode: SortCode
+  iban: IBAN
+  bic: BIC
+}
+
+type SortCode {
+  value: String!
+  bankName: String
+  country: CountryCode
+}
+
+type IBAN {
+  value: String!
+  country: CountryCode
+  checkDigits: String
+  bban: String
+}
+
+type BIC {
+  value: String!
+  bankCode: String
+  countryCode: CountryCode
+  locationCode: String
+  branchCode: String
+}
+
+# ─── Balance Types ────────────────────────────────────────────────────────────
+
+type AvailableBalance {
+  amount: Decimal!
+  currency: CurrencyCode!
+  updatedAt: DateTime
+}
+
+type CurrentBalance {
+  amount: Decimal!
+  currency: CurrencyCode!
+  updatedAt: DateTime
+}
+
+type AccountBalance {
+  available: AvailableBalance!
+  current: CurrentBalance!
+  overdraft: Decimal
+  creditLimit: Decimal
+  currency: CurrencyCode!
+  updatedAt: DateTime!
+}
+
+type CardBalance {
+  available: AvailableBalance!
+  current: CurrentBalance!
+  creditLimit: Decimal
+  currency: CurrencyCode!
+  updatedAt: DateTime!
+}
+
+# ─── Bank Account ─────────────────────────────────────────────────────────────
+
+type BankAccountDetails {
+  accountNumber: AccountNumber!
+  sortCode: SortCode
+  iban: IBAN
+  bic: BIC
+  bankName: String
+  branchName: String
+  country: CountryCode
+}
+
+type BankAccount {
+  id: ID!
+  type: BankAccountType!
+  displayName: String!
+  currency: CurrencyCode!
+  details: BankAccountDetails!
+  balance: AccountBalance
+  transactions(
+    from: Date
+    to: Date
+    limit: Int
+    offset: Int
+  ): [Transaction!]
+  standingOrders: [StandingOrder!]
+  directDebits: [DirectDebit!]
+  provider: Provider!
+  updateTimestamp: DateTime!
+}
+
+# ─── Card ────────────────────────────────────────────────────────────────────
+
+type CardDetails {
+  partialCardNumber: String
+  nameOnCard: String
+  validFrom: Date
+  validTo: Date
+  pan: PAN
+}
+
+type Card {
+  id: ID!
+  type: CardType!
+  displayName: String!
+  currency: CurrencyCode!
+  details: CardDetails!
+  balance: CardBalance
+  transactions(
+    from: Date
+    to: Date
+    limit: Int
+    offset: Int
+  ): [Transaction!]
+  provider: Provider!
+  updateTimestamp: DateTime!
+}
+
+# ─── PAN ─────────────────────────────────────────────────────────────────────
+
+type PAN {
+  masked: String!
+}
+
+type EncryptedPAN {
+  encryptedValue: String!
+  algorithm: String!
+  keyId: String!
+}
+
+# ─── Merchant ────────────────────────────────────────────────────────────────
+
+type MerchantDetails {
+  name: String
+  address: String
+  city: String
+  country: CountryCode
+  postalCode: String
+  categoryCode: String
+  website: URI
+}
+
+type Merchant {
+  id: ID
+  name: String!
+  details: MerchantDetails
+  category: Category
+}
+
+type Category {
+  id: ID!
+  name: String!
+  parentCategory: Category
+  iconUrl: URI
+}
+
+# ─── Transaction ─────────────────────────────────────────────────────────────
+
+type TransactionDetails {
+  reference: String
+  description: String
+  transactionType: TransactionType!
+  normalisedProviderDescription: String
+  merchant: Merchant
+  category: TransactionCategory
+  runningBalance: Decimal
+  currency: CurrencyCode
+}
+
+type Transaction {
+  id: ID!
+  timestamp: DateTime!
+  description: String!
+  amount: Decimal!
+  currency: CurrencyCode!
+  type: TransactionType!
+  status: TransactionStatus!
+  details: TransactionDetails
+  metadata: Metadata
+  provider: Provider
+}
+
+# ─── Standing Order ──────────────────────────────────────────────────────────
+
+type StandingOrder {
+  id: ID!
+  reference: String
+  status: StandingOrderStatus!
+  frequency: String!
+  amount: Decimal!
+  currency: CurrencyCode!
+  firstPaymentDate: Date
+  nextPaymentDate: Date
+  finalPaymentDate: Date
+  firstPaymentAmount: Decimal
+  nextPaymentAmount: Decimal
+  finalPaymentAmount: Decimal
+  payee: BankAccountDetails
+  timestamp: DateTime!
+}
+
+# ─── Direct Debit ────────────────────────────────────────────────────────────
+
+type DirectDebitDetails {
+  reference: String
+  name: String
+  mandateIdentification: String
+  contractPresentDate: Date
+}
+
+type DirectDebit {
+  id: ID!
+  status: DirectDebitStatus!
+  name: String!
+  amount: Decimal
+  currency: CurrencyCode
+  previousPaymentDate: Date
+  previousPaymentAmount: Decimal
+  nextPaymentDate: Date
+  details: DirectDebitDetails
+  timestamp: DateTime!
+}
+
+# ─── Provider ────────────────────────────────────────────────────────────────
+
+type ProviderDetails {
+  displayName: String!
+  logoUri: URI
+  iconUri: URI
+  country: CountryCode!
+  divisions: [String!]
+}
+
+type ProviderCredentials {
+  clientId: String
+  redirectUri: URI
+  scopes: [String!]!
+}
+
+type Provider {
+  id: ID!
+  type: ProviderType!
+  displayName: String!
+  details: ProviderDetails!
+  credentials: ProviderCredentials
+  authFlow: AuthFlow
+  countryCode: CountryCode!
+  logoUrl: URI
+  metadata: Metadata
+}
+
+# ─── Auth ────────────────────────────────────────────────────────────────────
+
+type AuthDetails {
+  flow: AuthFlow!
+  redirectUri: URI
+  state: String
+  nonce: String
+}
+
+type AuthToken {
+  accessToken: String!
+  refreshToken: String
+  tokenType: String!
+  expiresIn: Int!
+  scope: String
+  issuedAt: DateTime!
+  expiresAt: DateTime!
+}
+
+type OAuthToken {
+  accessToken: String!
+  refreshToken: String
+  tokenType: String!
+  expiresIn: Int!
+  scope: [ConsentScope!]
+  issuedAt: DateTime!
+  expiresAt: DateTime!
+}
+
+type APIKey {
+  keyId: ID!
+  name: String
+  createdAt: DateTime!
+  expiresAt: DateTime
+  scopes: [String!]!
+  active: Boolean!
+}
+
+type Token {
+  value: String!
+  type: String!
+  expiresAt: DateTime!
+}
+
+# ─── Consent ─────────────────────────────────────────────────────────────────
+
+type ConsentExpiry {
+  expiresAt: DateTime!
+  duration: Int
+}
+
+type ConsentDetails {
+  permissions: [ConsentScope!]!
+  expiry: ConsentExpiry!
+  dataAccessDuration: Int
+  providerConsent: Boolean!
+}
+
+type Consent {
+  id: ID!
+  status: ConsentStatus!
+  details: ConsentDetails!
+  scopes: [ConsentScope!]!
+  provider: Provider!
+  token: OAuthToken
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  revokedAt: DateTime
+}
+
+# ─── Identity / User ─────────────────────────────────────────────────────────
+
+type UserDetails {
+  fullName: String
+  email: String
+  phone: String
+  dateOfBirth: Date
+  address: String
+  nationality: CountryCode
+}
+
+type UserInfo {
+  sub: ID!
+  details: UserDetails
+  consents: [Consent!]
+  accounts: [BankAccount!]
+  cards: [Card!]
+  identities: [VerifiedIdentity!]
+}
+
+type BankIdentity {
+  fullName: String!
+  dateOfBirth: Date
+  address: String
+  accountNumber: AccountNumber
+  sortCode: SortCode
+  iban: IBAN
+}
+
+type VerifiedIdentity {
+  id: ID!
+  userId: ID!
+  bankIdentity: BankIdentity!
+  verifiedAt: DateTime!
+  provider: Provider!
+}
+
+# ─── Payment ─────────────────────────────────────────────────────────────────
+
+type PaymentDetails {
+  reference: String
+  amountInMinor: Int!
+  currency: CurrencyCode!
+  paymentScheme: String
+  statementReference: String
+  beneficiaryName: String
+  beneficiaryAccountNumber: AccountNumber
+  remittanceInformation: String
+}
+
+type PaymentRequest {
+  id: ID!
+  amountInMinor: Int!
+  currency: CurrencyCode!
+  paymentMethod: PaymentMethod!
+  userId: ID
+  reference: String
+  metadata: Metadata
+  returnUri: URI
+  createdAt: DateTime!
+}
+
+type Payment {
+  id: ID!
+  status: PaymentStatus!
+  amountInMinor: Int!
+  currency: CurrencyCode!
+  paymentMethod: PaymentMethod!
+  details: PaymentDetails!
+  userId: ID
+  provider: Provider
+  createdAt: DateTime!
+  executedAt: DateTime
+  settledAt: DateTime
+  failedAt: DateTime
+  metadata: Metadata
+}
+
+# ─── Mandate ─────────────────────────────────────────────────────────────────
+
+type MandateDetails {
+  constraintType: String
+  periodicLimits: JSON
+  validFrom: Date
+  validTo: Date
+  reference: String
+}
+
+type Mandate {
+  id: ID!
+  status: MandateStatus!
+  userId: ID
+  provider: Provider
+  details: MandateDetails!
+  consentToken: String
+  createdAt: DateTime!
+  authorisedAt: DateTime
+  revokedAt: DateTime
+  failedAt: DateTime
+  metadata: Metadata
+}
+
+# ─── Metadata / Error ────────────────────────────────────────────────────────
+
+type Metadata {
+  key: String!
+  value: String!
+}
+
+type Error {
+  code: ErrorCode!
+  message: String!
+  detail: String
+  traceId: String
+  type: URI
+}
+
+# ─── Root Types ──────────────────────────────────────────────────────────────
+
+type Query {
+  "Retrieve a specific bank account by ID."
+  account(id: ID!): BankAccount
+
+  "List all accessible bank accounts for the authenticated user."
+  accounts: [BankAccount!]
+
+  "Retrieve a specific card by ID."
+  card(id: ID!): Card
+
+  "List all accessible cards for the authenticated user."
+  cards: [Card!]
+
+  "Retrieve transactions for an account within a date range."
+  transactions(
+    accountId: ID!
+    from: Date
+    to: Date
+    limit: Int
+    offset: Int
+  ): [Transaction!]
+
+  "Retrieve the balance for an account."
+  balance(accountId: ID!): AccountBalance
+
+  "Retrieve balance for a card."
+  cardBalance(cardId: ID!): CardBalance
+
+  "Retrieve standing orders for an account."
+  standingOrders(accountId: ID!): [StandingOrder!]
+
+  "Retrieve direct debits for an account."
+  directDebits(accountId: ID!): [DirectDebit!]
+
+  "Retrieve a payment by ID."
+  payment(id: ID!): Payment
+
+  "List payments for the authenticated user."
+  payments(limit: Int, offset: Int): [Payment!]
+
+  "Retrieve a VRP mandate by ID."
+  mandate(id: ID!): Mandate
+
+  "List mandates for the authenticated user."
+  mandates(limit: Int, offset: Int): [Mandate!]
+
+  "Retrieve identity information for the authenticated user."
+  identity: UserInfo
+
+  "Retrieve a specific provider by ID."
+  provider(id: ID!): Provider
+
+  "List all providers available on the TrueLayer network."
+  providers(countryCode: CountryCode): [Provider!]
+
+  "Retrieve an active consent by ID."
+  consent(id: ID!): Consent
+
+  "List active consents for the authenticated user."
+  consents: [Consent!]
+}
+
+type Mutation {
+  "Initiate a new payment."
+  createPayment(input: CreatePaymentInput!): Payment
+
+  "Cancel a pending payment."
+  cancelPayment(id: ID!): Payment
+
+  "Initiate a refund for a settled payment."
+  refundPayment(id: ID!, amountInMinor: Int): Payment
+
+  "Create a new VRP mandate."
+  createMandate(input: CreateMandateInput!): Mandate
+
+  "Revoke an existing mandate."
+  revokeMandate(id: ID!): Mandate
+
+  "Revoke a data consent."
+  revokeConsent(id: ID!): Consent
+
+  "Exchange an authorisation code for an access token."
+  exchangeCode(code: String!, redirectUri: URI!): OAuthToken
+
+  "Refresh an access token using a refresh token."
+  refreshToken(refreshToken: String!): OAuthToken
+}
+
+input CreatePaymentInput {
+  amountInMinor: Int!
+  currency: CurrencyCode!
+  paymentMethod: PaymentMethod!
+  reference: String!
+  beneficiaryAccountNumber: String
+  beneficiarySortCode: String
+  userId: ID
+  returnUri: URI
+  metadata: JSON
+}
+
+input CreateMandateInput {
+  userId: ID
+  providerId: ID!
+  reference: String
+  validFrom: Date
+  validTo: Date
+  constraintType: String
+  periodicLimits: JSON
+  returnUri: URI
+  metadata: JSON
+}
