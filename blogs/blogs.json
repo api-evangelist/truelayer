@@ -3,16 +3,12 @@
   "feeds": [
     {
       "source": "https://truelayer.com/blog/",
-      "feed_url": "https://truelayer.com/blog/",
-      "title": "",
-      "saved": 0,
-      "method": "none"
-    },
-    {
-      "source": "https://docs.truelayer.com/changelog",
-      "error": "HTTPError"
+      "feed_url": "",
+      "saved": 1,
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 1,
+  "fetched": "2026-06-27T13:17:43Z",
+  "agent_pulled": "2026-06-27"
 }

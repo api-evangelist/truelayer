@@ -98,7 +98,7 @@ common:
 - name: MCP Server
   url: https://github.com/TrueLayer/truelayer_mcp
   type: MCPServer
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.truelayer.com/llms.txt
 maintainers:
 - FN: Kin Lane
