@@ -1,0 +1,28 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: truelayer.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 14 20:45:01 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.truelayer.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  3 14:30:37 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.truelayer.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 13 18:14:12 2026 GMT
+  hsts: null
+domains:
+- domain: truelayer.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

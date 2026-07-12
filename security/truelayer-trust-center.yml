@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://trust.truelayer.com/
+url: https://trust.truelayer.com/
+certifications:
+- ISO 27001
+- GDPR
+evidence:
+- source: https://trust.truelayer.com/
+  keywords:
+  - iso/iec 27001
+  - trust center
+  - gdpr

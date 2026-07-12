@@ -73,6 +73,14 @@ apis:
   - type: Reference
     url: https://docs.truelayer.com/reference
 common:
+- type: TrustCenter
+  url: security/truelayer-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/truelayer-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/truelayer-domain-security.yml
+- type: Authentication
+  url: authentication/truelayer-authentication.yml
 - type: Website
   url: https://truelayer.com/
 - type: Documentation
