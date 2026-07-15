@@ -73,6 +73,8 @@ apis:
   - type: Reference
     url: https://docs.truelayer.com/reference
 common:
+- type: AgenticAccess
+  url: agentic-access/truelayer-agentic-access.yml
 - type: TrustCenter
   url: security/truelayer-trust-center.yml
 - type: VulnerabilityDisclosure
