@@ -1,0 +1,208 @@
+openapi: 3.0.3
+info:
+  title: TrueLayer Payments Mandates Payouts API
+  description: The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.
+  version: 3.0.0
+  contact:
+    name: TrueLayer Support
+    url: https://docs.truelayer.com
+  termsOfService: https://truelayer.com/legal/
+servers:
+- url: https://api.truelayer.com
+  description: TrueLayer Production API
+- url: https://api.truelayer-sandbox.com
+  description: TrueLayer Sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Payouts
+  description: Payments from merchant accounts to users
+paths:
+  /v3/payouts:
+    post:
+      summary: Create Payout
+      description: Initiate a payout from a merchant account to a user or external account. Used for refunds, withdrawals, and disbursements.
+      operationId: createPayout
+      tags:
+      - Payouts
+      parameters:
+      - name: Tl-Signature
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePayoutRequest'
+      responses:
+        '200':
+          description: Payout initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum:
+                    - pending
+                    - authorized
+                    - executed
+                    - failed
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/payouts/{id}:
+    get:
+      summary: Get Payout
+      description: Retrieve the status of a payout.
+      operationId: getPayout
+      tags:
+      - Payouts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Payout details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  merchant_account_id:
+                    type: string
+                    format: uuid
+                  amount_in_minor:
+                    type: integer
+                  currency:
+                    type: string
+                  beneficiary:
+                    type: object
+                  status:
+                    type: string
+                    enum:
+                    - pending
+                    - authorized
+                    - executed
+                    - failed
+                  created_at:
+                    type: string
+                    format: date-time
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+  schemas:
+    CreatePayoutRequest:
+      type: object
+      required:
+      - merchant_account_id
+      - amount_in_minor
+      - currency
+      - beneficiary
+      properties:
+        merchant_account_id:
+          type: string
+          format: uuid
+          description: Source merchant account
+        amount_in_minor:
+          type: integer
+          minimum: 1
+        currency:
+          type: string
+          enum:
+          - GBP
+          - EUR
+        beneficiary:
+          type: object
+          required:
+          - type
+          - account_holder_name
+          properties:
+            type:
+              type: string
+              enum:
+              - external_account
+              - payment_source
+              description: payment_source uses a source from previous payment
+            account_holder_name:
+              type: string
+            account_identifier:
+              type: object
+              description: Required when type=external_account
+            payment_source_id:
+              type: string
+              description: Required when type=payment_source
+            user_id:
+              type: string
+              description: Required when type=payment_source
+        reference:
+          type: string
+          description: Reference shown on recipient's bank statement
+        metadata:
+          type: object
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth2 access token with payments scope

@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  title: TrueLayer Payments Mandates API
+  description: The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.
+  version: 3.0.0
+  contact:
+    name: TrueLayer Support
+    url: https://docs.truelayer.com
+  termsOfService: https://truelayer.com/legal/
+servers:
+- url: https://api.truelayer.com
+  description: TrueLayer Production API
+- url: https://api.truelayer-sandbox.com
+  description: TrueLayer Sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Mandates
+  description: Variable recurring payment mandates
+paths:
+  /v3/mandates:
+    post:
+      summary: Create Mandate
+      description: Create a Variable Recurring Payment (VRP) mandate. A mandate authorizes the payee to initiate future payments within defined parameters.
+      operationId: createMandate
+      tags:
+      - Mandates
+      parameters:
+      - name: Tl-Signature
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMandateRequest'
+      responses:
+        '200':
+          description: Mandate created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMandateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/mandates/{id}:
+    get:
+      summary: Get Mandate
+      description: Retrieve a mandate by ID.
+      operationId: getMandate
+      tags:
+      - Mandates
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Mandate details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mandate'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Revoke Mandate
+      description: Revoke an active VRP mandate.
+      operationId: revokeMandate
+      tags:
+      - Mandates
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Tl-Signature
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Mandate revoked
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+  schemas:
+    CreateMandateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT for mandate authorization
+        status:
+          type: string
+          enum:
+          - authorization_required
+    Mandate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        mandate:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+          - authorization_required
+          - authorizing
+          - authorized
+          - revoked
+          - failed
+        constraints:
+          type: object
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        authorized_at:
+          type: string
+          format: date-time
+        revoked_at:
+          type: string
+          format: date-time
+    CreateMandateRequest:
+      type: object
+      required:
+      - mandate
+      - currency
+      - user
+      properties:
+        mandate:
+          type: object
+          required:
+          - type
+          - beneficiary
+          properties:
+            type:
+              type: string
+              enum:
+              - commercial
+              - sweeping
+              description: Mandate type (commercial = to any account, sweeping = own accounts)
+            provider_selection:
+              type: object
+            beneficiary:
+              type: object
+              required:
+              - type
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - merchant_account
+                  - external_account
+                merchant_account_id:
+                  type: string
+                  format: uuid
+                account_holder_name:
+                  type: string
+                account_identifier:
+                  type: object
+        currency:
+          type: string
+          enum:
+          - GBP
+          - EUR
+        user:
+          type: object
+          required:
+          - name
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+        constraints:
+          type: object
+          description: Limits on mandate usage
+          properties:
+            valid_from:
+              type: string
+              format: date-time
+            valid_to:
+              type: string
+              format: date-time
+            maximum_individual_amount:
+              type: integer
+            periodic_limits:
+              type: array
+              items:
+                type: object
+                properties:
+                  maximum_amount:
+                    type: integer
+                  period:
+                    type: string
+                    enum:
+                    - day
+                    - week
+                    - fortnight
+                    - month
+                    - half_year
+                    - year
+        metadata:
+          type: object
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth2 access token with payments scope

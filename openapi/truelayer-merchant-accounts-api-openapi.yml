@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: TrueLayer Payments Mandates Merchant Accounts API
+  description: The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.
+  version: 3.0.0
+  contact:
+    name: TrueLayer Support
+    url: https://docs.truelayer.com
+  termsOfService: https://truelayer.com/legal/
+servers:
+- url: https://api.truelayer.com
+  description: TrueLayer Production API
+- url: https://api.truelayer-sandbox.com
+  description: TrueLayer Sandbox (testing)
+security:
+- BearerAuth: []
+tags:
+- name: Merchant Accounts
+  description: Merchant account management and balance
+paths:
+  /v3/merchant-accounts:
+    get:
+      summary: List Merchant Accounts
+      description: Returns all merchant accounts for the integration.
+      operationId: listMerchantAccounts
+      tags:
+      - Merchant Accounts
+      responses:
+        '200':
+          description: List of merchant accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MerchantAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v3/merchant-accounts/{id}:
+    get:
+      summary: Get Merchant Account
+      description: Retrieve a merchant account and its current balance.
+      operationId: getMerchantAccount
+      tags:
+      - Merchant Accounts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Merchant account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v3/merchant-accounts/{id}/transactions:
+    get:
+      summary: List Merchant Account Transactions
+      description: Returns transactions for a merchant account.
+      operationId: listMerchantAccountTransactions
+      tags:
+      - Merchant Accounts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: from
+        in: query
+        description: Start date-time filter (ISO 8601)
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: End date-time filter (ISO 8601)
+        schema:
+          type: string
+          format: date-time
+      - name: cursor
+        in: query
+        description: Pagination cursor
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Merchant account transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - payment
+                          - payout
+                          - refund
+                        amount_in_minor:
+                          type: integer
+                        currency:
+                          type: string
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                          format: date-time
+                  next_cursor:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    MerchantAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        account_identifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              sort_code:
+                type: string
+              account_number:
+                type: string
+              iban:
+                type: string
+        available_balance_in_minor:
+          type: integer
+          description: Available balance in minor currency units
+        current_balance_in_minor:
+          type: integer
+          description: Current balance including pending settlements
+  responses:
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth2 access token with payments scope
