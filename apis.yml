@@ -6,7 +6,20 @@ description: TrueLayer is Europe's leading open banking platform providing unifi
   instant bank payments, data enrichment, and account verification through a single
   API.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/truelayer.png
 tags:
 - Data API
 - Financial Services
@@ -20,45 +33,12 @@ created: '2026-03-27'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-- aid: truelayer:payments-api
-  name: TrueLayer Payments API
-  description: The TrueLayer Payments API v3 enables creation and management of open
-    banking payments, payouts, refunds, and variable recurring payment mandates. Supports
-    closed-loop pay-ins, single external payments, VRP mandates, merchant account
-    management, and full webhook event coverage across UK and EU markets.
-  humanURL: https://docs.truelayer.com/docs/payments-api-basics
-  baseURL: https://api.truelayer.com
-  tags:
-  - Open Banking
-  - Payments
-  - Payouts
-  - Refunds
-  - VRP
-  properties:
-  - type: Documentation
-    url: https://docs.truelayer.com/docs/payments-api-basics
-  - type: GettingStarted
-    url: https://docs.truelayer.com/docs/create-a-payment
-  - type: Webhooks
-    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
-  - type: OpenAPI
-    url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/openapi/truelayer-payments-openapi.yml
-  - type: SpectralRules
-    url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
-  - type: JSONSchema
-    url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
-  - type: JSONLDContext
-    url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
-  - type: Vocabulary
-    url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - url: graphql/truelayer-graphql.md
-    type: GraphQL
 - aid: truelayer:data-api
   name: TrueLayer Data API
-  description: The TrueLayer Data API provides access to bank account data including
-    account information, balances, transactions, identity verification, and standing
-    orders. Used for account verification, affordability assessments, and financial
-    data enrichment.
+  description: >-
+    The TrueLayer Data API provides access to bank account data including account information, balances,
+    transactions, identity verification, and standing orders. Used for account verification, affordability
+    assessments, and financial data enrichment.
   humanURL: https://docs.truelayer.com/docs/data-api-basics
   baseURL: https://api.truelayer.com
   tags:
@@ -72,7 +52,159 @@ apis:
     url: https://docs.truelayer.com/docs/data-api-basics
   - type: Reference
     url: https://docs.truelayer.com/reference
+- aid: truelayer:truelayer-mandates-api
+  name: TrueLayer Mandates API
+  description: Variable recurring payment mandates
+  humanURL: https://docs.truelayer.com/docs/payments-api-basics
+  baseURL: https://api.truelayer.com
+  tags:
+  - Mandates
+  properties:
+  - type: OpenAPI
+    url: openapi/truelayer-mandates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.truelayer.com/docs/payments-api-basics
+  - type: GettingStarted
+    url: https://docs.truelayer.com/docs/create-a-payment
+  - type: Webhooks
+    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
+  - type: JSONLDContext
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
+  - type: Vocabulary
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
+  - type: GraphQL
+    url: graphql/truelayer-graphql.md
+- aid: truelayer:truelayer-merchant-accounts-api
+  name: TrueLayer Merchant Accounts API
+  description: Merchant account management and balance
+  humanURL: https://docs.truelayer.com/docs/payments-api-basics
+  baseURL: https://api.truelayer.com
+  tags:
+  - Merchant Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/truelayer-merchant-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.truelayer.com/docs/payments-api-basics
+  - type: GettingStarted
+    url: https://docs.truelayer.com/docs/create-a-payment
+  - type: Webhooks
+    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
+  - type: JSONLDContext
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
+  - type: Vocabulary
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
+  - type: GraphQL
+    url: graphql/truelayer-graphql.md
+- aid: truelayer:truelayer-payments-api
+  name: TrueLayer Payments API
+  description: Create and manage individual bank payments
+  humanURL: https://docs.truelayer.com/docs/payments-api-basics
+  baseURL: https://api.truelayer.com
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/truelayer-payments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.truelayer.com/docs/payments-api-basics
+  - type: GettingStarted
+    url: https://docs.truelayer.com/docs/create-a-payment
+  - type: Webhooks
+    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
+  - type: JSONLDContext
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
+  - type: Vocabulary
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
+  - type: GraphQL
+    url: graphql/truelayer-graphql.md
+- aid: truelayer:truelayer-payouts-api
+  name: TrueLayer Payouts API
+  description: Payments from merchant accounts to users
+  humanURL: https://docs.truelayer.com/docs/payments-api-basics
+  baseURL: https://api.truelayer.com
+  tags:
+  - Payouts
+  properties:
+  - type: OpenAPI
+    url: openapi/truelayer-payouts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.truelayer.com/docs/payments-api-basics
+  - type: GettingStarted
+    url: https://docs.truelayer.com/docs/create-a-payment
+  - type: Webhooks
+    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
+  - type: JSONLDContext
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
+  - type: Vocabulary
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
+  - type: GraphQL
+    url: graphql/truelayer-graphql.md
+- aid: truelayer:truelayer-refunds-api
+  name: TrueLayer Refunds API
+  description: Refund payments back to users
+  humanURL: https://docs.truelayer.com/docs/payments-api-basics
+  baseURL: https://api.truelayer.com
+  tags:
+  - Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/truelayer-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.truelayer.com/docs/payments-api-basics
+  - type: GettingStarted
+    url: https://docs.truelayer.com/docs/create-a-payment
+  - type: Webhooks
+    url: https://docs.truelayer.com/docs/payments-api-webhook-reference
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json
+  - type: JSONLDContext
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld
+  - type: Vocabulary
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
+  - type: GraphQL
+    url: graphql/truelayer-graphql.md
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/truelayer/overview
 - type: AgenticAccess
   url: agentic-access/truelayer-agentic-access.yml
 - type: TrustCenter
