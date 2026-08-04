@@ -1,0 +1,22 @@
+{
+  "provider": "truelayer",
+  "sources": [
+    "truelayer-mandates-api-openapi.yml",
+    "truelayer-merchant-accounts-api-openapi.yml",
+    "truelayer-payments-api-openapi.yml",
+    "truelayer-payouts-api-openapi.yml",
+    "truelayer-refunds-api-openapi.yml"
+  ],
+  "outputs": [
+    "truelayer-mandates-api-openapi.yml",
+    "truelayer-merchant-accounts-api-openapi.yml",
+    "truelayer-payments-api-openapi.yml",
+    "truelayer-payouts-api-openapi.yml",
+    "truelayer-refunds-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

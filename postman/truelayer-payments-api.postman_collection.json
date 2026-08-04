@@ -1,0 +1,866 @@
+{
+  "info": {
+    "_postman_id": "d8888b14-c3f0-49ca-bdbd-a33f3bd03b78",
+    "name": "TrueLayer Mandates Payments API",
+    "description": "The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.\n\nContact Support:\n Name: TrueLayer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:20:02.000Z",
+    "updatedAt": "2026-07-28T03:20:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d8888b14-c3f0-49ca-bdbd-a33f3bd03b78"
+  },
+  "item": [
+    {
+      "name": "v3",
+      "item": [
+        {
+          "name": "payments",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "authorization-flow",
+                  "item": [
+                    {
+                      "name": "Start Authorization Flow",
+                      "id": "f311cf0b-01b0-4b15-a82a-e6ae054ee686",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "Tl-Signature",
+                            "value": "<string>"
+                          },
+                          {
+                            "description": "(Required) ",
+                            "key": "Idempotency-Key",
+                            "value": "<uuid>"
+                          },
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"provider_selection\": {\n    \"provider_id\": \"<string>\"\n  },\n  \"scheme_selection\": {},\n  \"redirect\": {\n    \"return_uri\": \"<uri>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id/authorization-flow",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id",
+                            "authorization-flow"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1c4ca5bf-7a64-44fe-aa33-70c0787bbb9e",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Start or continue the payment authorization flow. Used when implementing a custom authorization journey."
+                      },
+                      "response": [
+                        {
+                          "id": "6d008465-d980-4dfe-a48a-6cff42aba119",
+                          "name": "Authorization flow started",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"provider_selection\": {\n    \"provider_id\": \"<string>\"\n  },\n  \"scheme_selection\": {},\n  \"redirect\": {\n    \"return_uri\": \"<uri>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/authorization-flow",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "authorization-flow"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"authorization_flow\": {\n    \"actions\": {},\n    \"configuration\": {}\n  },\n  \"status\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:03.000Z",
+                          "updatedAt": "2026-07-28T03:20:03.000Z",
+                          "uid": "35240-6d008465-d980-4dfe-a48a-6cff42aba119"
+                        },
+                        {
+                          "id": "c5d02c9b-dfc5-448d-881b-0122dcb86570",
+                          "name": "Unauthorized - invalid token or missing signature",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"provider_selection\": {\n    \"provider_id\": \"<string>\"\n  },\n  \"scheme_selection\": {},\n  \"redirect\": {\n    \"return_uri\": \"<uri>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/authorization-flow",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "authorization-flow"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:03.000Z",
+                          "updatedAt": "2026-07-28T03:20:03.000Z",
+                          "uid": "35240-c5d02c9b-dfc5-448d-881b-0122dcb86570"
+                        },
+                        {
+                          "id": "fc12531f-220e-4c05-98fd-591de0aad064",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"provider_selection\": {\n    \"provider_id\": \"<string>\"\n  },\n  \"scheme_selection\": {},\n  \"redirect\": {\n    \"return_uri\": \"<uri>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/authorization-flow",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "authorization-flow"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:03.000Z",
+                          "updatedAt": "2026-07-28T03:20:03.000Z",
+                          "uid": "35240-fc12531f-220e-4c05-98fd-591de0aad064"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:20:03.000Z",
+                      "updatedAt": "2026-07-28T03:20:03.000Z",
+                      "uid": "35240-f311cf0b-01b0-4b15-a82a-e6ae054ee686"
+                    }
+                  ],
+                  "id": "967e954e-43b1-444d-91aa-ddcf3cca3204",
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-967e954e-43b1-444d-91aa-ddcf3cca3204"
+                },
+                {
+                  "name": "Get Payment",
+                  "id": "078bd031-f646-448e-8e72-771c09dea3ac",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/payments/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "payments",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "5f5fb0e0-5f94-4fe1-878d-4ce091d313e4",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Payment UUID"
+                        }
+                      ]
+                    },
+                    "description": "Retrieve the current status and details of a payment."
+                  },
+                  "response": [
+                    {
+                      "id": "defcfdab-29ad-457b-b5be-2d3f1fba0fec",
+                      "name": "Payment details",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"<string>\",\n  \"payment_method\": {},\n  \"user\": {},\n  \"status\": \"authorized\",\n  \"metadata\": {},\n  \"created_at\": \"<dateTime>\",\n  \"executed_at\": \"<dateTime>\",\n  \"settled_at\": \"<dateTime>\",\n  \"failure_reason\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:20:03.000Z",
+                      "updatedAt": "2026-07-28T03:20:03.000Z",
+                      "uid": "35240-defcfdab-29ad-457b-b5be-2d3f1fba0fec"
+                    },
+                    {
+                      "id": "d85bf858-90f2-4db7-ab22-a7fa94c0e485",
+                      "name": "Unauthorized - invalid token or missing signature",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:20:03.000Z",
+                      "updatedAt": "2026-07-28T03:20:03.000Z",
+                      "uid": "35240-d85bf858-90f2-4db7-ab22-a7fa94c0e485"
+                    },
+                    {
+                      "id": "a58e68c5-7232-4227-b2f2-8a1b51ba4c49",
+                      "name": "Resource not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:20:03.000Z",
+                      "updatedAt": "2026-07-28T03:20:03.000Z",
+                      "uid": "35240-a58e68c5-7232-4227-b2f2-8a1b51ba4c49"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-078bd031-f646-448e-8e72-771c09dea3ac"
+                }
+              ],
+              "id": "8e09664c-93c2-4741-ad8d-35dacbceefaa",
+              "createdAt": "2026-07-28T03:20:03.000Z",
+              "updatedAt": "2026-07-28T03:20:03.000Z",
+              "uid": "35240-8e09664c-93c2-4741-ad8d-35dacbceefaa"
+            },
+            {
+              "name": "Create Payment",
+              "id": "07c2b631-857d-472d-b27f-666c98fa70bf",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "(Required) Request signing signature (detached JWS)",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "description": "(Required) UUID for idempotent request deduplication",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"GBP\",\n  \"payment_method\": {\n    \"type\": \"bank_transfer\",\n    \"beneficiary\": {\n      \"type\": \"merchant_account\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": {\n        \"type\": \"nrb\",\n        \"sort_code\": \"<string>\",\n        \"account_number\": \"<string>\",\n        \"iban\": \"<string>\"\n      }\n    },\n    \"provider_selection\": {\n      \"type\": \"user_selected\",\n      \"provider_id\": \"<string>\",\n      \"filter\": {}\n    },\n    \"scheme_selection\": {\n      \"type\": \"instant_preferred\"\n    }\n  },\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"address\": {}\n  },\n  \"metadata\": {\n    \"aliquip3_\": \"<string>\",\n    \"inb32\": \"<string>\",\n    \"ullamco_dd\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v3/payments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v3",
+                    "payments"
+                  ]
+                },
+                "description": "Initiate a new payment via open banking. Supports closed-loop pay-ins to merchant accounts, single payments to external accounts, and mandate-based VRP payments. All POST requests must include a Tl-Signature header and Idempotency-Key."
+              },
+              "response": [
+                {
+                  "id": "031e5cfa-7eb5-4e46-bf70-8afadddaf2aa",
+                  "name": "Payment created successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "description": "(Required) Request signing signature (detached JWS)",
+                        "key": "Tl-Signature",
+                        "value": "<string>"
+                      },
+                      {
+                        "description": "(Required) UUID for idempotent request deduplication",
+                        "key": "Idempotency-Key",
+                        "value": "<uuid>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"GBP\",\n  \"payment_method\": {\n    \"type\": \"bank_transfer\",\n    \"beneficiary\": {\n      \"type\": \"merchant_account\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": {\n        \"type\": \"nrb\",\n        \"sort_code\": \"<string>\",\n        \"account_number\": \"<string>\",\n        \"iban\": \"<string>\"\n      }\n    },\n    \"provider_selection\": {\n      \"type\": \"user_selected\",\n      \"provider_id\": \"<string>\",\n      \"filter\": {}\n    },\n    \"scheme_selection\": {\n      \"type\": \"instant_preferred\"\n    }\n  },\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"address\": {}\n  },\n  \"metadata\": {\n    \"aliquip3_\": \"<string>\",\n    \"inb32\": \"<string>\",\n    \"ullamco_dd\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/payments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "payments"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"user\": {\n    \"id\": \"<uuid>\"\n  },\n  \"resource_token\": \"<string>\",\n  \"status\": \"authorization_required\"\n}",
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-031e5cfa-7eb5-4e46-bf70-8afadddaf2aa"
+                },
+                {
+                  "id": "53558661-2f90-4f09-857d-3f3e438c0964",
+                  "name": "Bad request - invalid parameters",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "description": "(Required) Request signing signature (detached JWS)",
+                        "key": "Tl-Signature",
+                        "value": "<string>"
+                      },
+                      {
+                        "description": "(Required) UUID for idempotent request deduplication",
+                        "key": "Idempotency-Key",
+                        "value": "<uuid>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"GBP\",\n  \"payment_method\": {\n    \"type\": \"bank_transfer\",\n    \"beneficiary\": {\n      \"type\": \"merchant_account\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": {\n        \"type\": \"nrb\",\n        \"sort_code\": \"<string>\",\n        \"account_number\": \"<string>\",\n        \"iban\": \"<string>\"\n      }\n    },\n    \"provider_selection\": {\n      \"type\": \"user_selected\",\n      \"provider_id\": \"<string>\",\n      \"filter\": {}\n    },\n    \"scheme_selection\": {\n      \"type\": \"instant_preferred\"\n    }\n  },\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"address\": {}\n  },\n  \"metadata\": {\n    \"aliquip3_\": \"<string>\",\n    \"inb32\": \"<string>\",\n    \"ullamco_dd\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/payments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "payments"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"trace_id\": \"<string>\",\n  \"errors\": {}\n}",
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-53558661-2f90-4f09-857d-3f3e438c0964"
+                },
+                {
+                  "id": "0a7bd355-238a-4516-9ad0-d5ae68eb17df",
+                  "name": "Unauthorized - invalid token or missing signature",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "description": "(Required) Request signing signature (detached JWS)",
+                        "key": "Tl-Signature",
+                        "value": "<string>"
+                      },
+                      {
+                        "description": "(Required) UUID for idempotent request deduplication",
+                        "key": "Idempotency-Key",
+                        "value": "<uuid>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"GBP\",\n  \"payment_method\": {\n    \"type\": \"bank_transfer\",\n    \"beneficiary\": {\n      \"type\": \"merchant_account\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": {\n        \"type\": \"nrb\",\n        \"sort_code\": \"<string>\",\n        \"account_number\": \"<string>\",\n        \"iban\": \"<string>\"\n      }\n    },\n    \"provider_selection\": {\n      \"type\": \"user_selected\",\n      \"provider_id\": \"<string>\",\n      \"filter\": {}\n    },\n    \"scheme_selection\": {\n      \"type\": \"instant_preferred\"\n    }\n  },\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"address\": {}\n  },\n  \"metadata\": {\n    \"aliquip3_\": \"<string>\",\n    \"inb32\": \"<string>\",\n    \"ullamco_dd\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/payments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "payments"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-0a7bd355-238a-4516-9ad0-d5ae68eb17df"
+                },
+                {
+                  "id": "22cd7519-09c7-4e6a-9b64-458fe5119f10",
+                  "name": "Unprocessable entity - business logic error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "description": "(Required) Request signing signature (detached JWS)",
+                        "key": "Tl-Signature",
+                        "value": "<string>"
+                      },
+                      {
+                        "description": "(Required) UUID for idempotent request deduplication",
+                        "key": "Idempotency-Key",
+                        "value": "<uuid>"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"currency\": \"GBP\",\n  \"payment_method\": {\n    \"type\": \"bank_transfer\",\n    \"beneficiary\": {\n      \"type\": \"merchant_account\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": {\n        \"type\": \"nrb\",\n        \"sort_code\": \"<string>\",\n        \"account_number\": \"<string>\",\n        \"iban\": \"<string>\"\n      }\n    },\n    \"provider_selection\": {\n      \"type\": \"user_selected\",\n      \"provider_id\": \"<string>\",\n      \"filter\": {}\n    },\n    \"scheme_selection\": {\n      \"type\": \"instant_preferred\"\n    }\n  },\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\",\n    \"phone\": \"<string>\",\n    \"date_of_birth\": \"<date>\",\n    \"address\": {}\n  },\n  \"metadata\": {\n    \"aliquip3_\": \"<string>\",\n    \"inb32\": \"<string>\",\n    \"ullamco_dd\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/payments",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "payments"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"errors\": {}\n}",
+                  "createdAt": "2026-07-28T03:20:03.000Z",
+                  "updatedAt": "2026-07-28T03:20:03.000Z",
+                  "uid": "35240-22cd7519-09c7-4e6a-9b64-458fe5119f10"
+                }
+              ],
+              "createdAt": "2026-07-28T03:20:03.000Z",
+              "updatedAt": "2026-07-28T03:20:03.000Z",
+              "uid": "35240-07c2b631-857d-472d-b27f-666c98fa70bf"
+            }
+          ],
+          "id": "db5c76ca-e9db-491c-affc-36ab135371b9",
+          "createdAt": "2026-07-28T03:20:03.000Z",
+          "updatedAt": "2026-07-28T03:20:03.000Z",
+          "uid": "35240-db5c76ca-e9db-491c-affc-36ab135371b9"
+        }
+      ],
+      "id": "3b1d4815-5d1f-4338-af92-93065842300a",
+      "createdAt": "2026-07-28T03:20:03.000Z",
+      "updatedAt": "2026-07-28T03:20:03.000Z",
+      "uid": "35240-3b1d4815-5d1f-4338-af92-93065842300a"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.truelayer.com"
+    }
+  ]
+}

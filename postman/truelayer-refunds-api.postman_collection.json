@@ -1,0 +1,620 @@
+{
+  "info": {
+    "_postman_id": "a7a4183a-4a3c-452d-a6c8-f3000e6fac50",
+    "name": "TrueLayer Payments Mandates Refunds API",
+    "description": "The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.\n\nContact Support:\n Name: TrueLayer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:21:09.000Z",
+    "updatedAt": "2026-07-28T03:21:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a7a4183a-4a3c-452d-a6c8-f3000e6fac50"
+  },
+  "item": [
+    {
+      "name": "v3",
+      "item": [
+        {
+          "name": "payments",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "refunds",
+                  "item": [
+                    {
+                      "name": "Create Refund",
+                      "id": "94986111-b46b-43f9-be37-ee8f6674fa1c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "(Required) ",
+                            "key": "Tl-Signature",
+                            "value": "<string>"
+                          },
+                          {
+                            "description": "(Required) ",
+                            "key": "Idempotency-Key",
+                            "value": "<uuid>"
+                          },
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"reference\": \"<string>\",\n  \"metadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id",
+                            "refunds"
+                          ],
+                          "variable": [
+                            {
+                              "id": "4da140ed-b167-4708-94a1-846d1696405c",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Payment UUID to refund"
+                            }
+                          ]
+                        },
+                        "description": "Initiate a refund for a completed payment."
+                      },
+                      "response": [
+                        {
+                          "id": "203f57df-8fd3-463c-9817-039ce9bb826d",
+                          "name": "Refund initiated",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"reference\": \"<string>\",\n  \"metadata\": {}\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"status\": \"failed\"\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-203f57df-8fd3-463c-9817-039ce9bb826d"
+                        },
+                        {
+                          "id": "ce4bcf0c-0553-4197-8a8a-cca6e2699430",
+                          "name": "Bad request - invalid parameters",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"reference\": \"<string>\",\n  \"metadata\": {}\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"trace_id\": \"<string>\",\n  \"errors\": {}\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-ce4bcf0c-0553-4197-8a8a-cca6e2699430"
+                        },
+                        {
+                          "id": "f4d30a05-8d04-4c4a-8e94-ba3b07d06da2",
+                          "name": "Unauthorized - invalid token or missing signature",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"reference\": \"<string>\",\n  \"metadata\": {}\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-f4d30a05-8d04-4c4a-8e94-ba3b07d06da2"
+                        },
+                        {
+                          "id": "11cc5995-a1f1-4c9e-91c7-2cf8ee33ba4d",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "(Required) ",
+                                "key": "Tl-Signature",
+                                "value": "<string>"
+                              },
+                              {
+                                "description": "(Required) ",
+                                "key": "Idempotency-Key",
+                                "value": "<uuid>"
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"amount_in_minor\": \"<integer>\",\n  \"reference\": \"<string>\",\n  \"metadata\": {}\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-11cc5995-a1f1-4c9e-91c7-2cf8ee33ba4d"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:21:09.000Z",
+                      "updatedAt": "2026-07-28T03:21:09.000Z",
+                      "uid": "35240-94986111-b46b-43f9-be37-ee8f6674fa1c"
+                    },
+                    {
+                      "name": "List Payment Refunds",
+                      "id": "007a05ca-65bc-4665-9c59-d04b42edd1e5",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "payments",
+                            ":id",
+                            "refunds"
+                          ],
+                          "variable": [
+                            {
+                              "id": "5ec39a93-d591-4332-bdcb-20e1690cb439",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Returns all refunds for a specific payment."
+                      },
+                      "response": [
+                        {
+                          "id": "a7375104-1e1e-49c2-90aa-48f26a7db380",
+                          "name": "List of refunds",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"items\": [\n    {\n      \"id\": \"<uuid>\",\n      \"amount_in_minor\": \"<integer>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"amount_in_minor\": \"<integer>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-a7375104-1e1e-49c2-90aa-48f26a7db380"
+                        },
+                        {
+                          "id": "fcb79bcd-608a-4986-950e-fcc30fec26c9",
+                          "name": "Unauthorized - invalid token or missing signature",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-fcb79bcd-608a-4986-950e-fcc30fec26c9"
+                        },
+                        {
+                          "id": "ddb66e33-29f1-41b0-ae07-800cbc930a01",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/payments/:id/refunds",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "payments",
+                                ":id",
+                                "refunds"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:21:09.000Z",
+                          "updatedAt": "2026-07-28T03:21:09.000Z",
+                          "uid": "35240-ddb66e33-29f1-41b0-ae07-800cbc930a01"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:21:09.000Z",
+                      "updatedAt": "2026-07-28T03:21:09.000Z",
+                      "uid": "35240-007a05ca-65bc-4665-9c59-d04b42edd1e5"
+                    }
+                  ],
+                  "id": "0f70ecd7-7442-41fa-8346-0cc43016409c",
+                  "createdAt": "2026-07-28T03:21:09.000Z",
+                  "updatedAt": "2026-07-28T03:21:09.000Z",
+                  "uid": "35240-0f70ecd7-7442-41fa-8346-0cc43016409c"
+                }
+              ],
+              "id": "99e51515-cd1e-4f18-b2ed-61ccafe4f430",
+              "createdAt": "2026-07-28T03:21:09.000Z",
+              "updatedAt": "2026-07-28T03:21:09.000Z",
+              "uid": "35240-99e51515-cd1e-4f18-b2ed-61ccafe4f430"
+            }
+          ],
+          "id": "cbbf1be9-18b6-4fe6-b22c-7285f1178661",
+          "createdAt": "2026-07-28T03:21:09.000Z",
+          "updatedAt": "2026-07-28T03:21:09.000Z",
+          "uid": "35240-cbbf1be9-18b6-4fe6-b22c-7285f1178661"
+        }
+      ],
+      "id": "353c3857-9b27-4c1e-893d-68fc5dcf8f52",
+      "createdAt": "2026-07-28T03:21:09.000Z",
+      "updatedAt": "2026-07-28T03:21:09.000Z",
+      "uid": "35240-353c3857-9b27-4c1e-893d-68fc5dcf8f52"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.truelayer.com"
+    }
+  ]
+}

@@ -1,0 +1,632 @@
+{
+  "info": {
+    "_postman_id": "00e0c09d-8dec-4d2b-9c68-cbd30e68619e",
+    "name": "TrueLayer Payments Mandates Merchant Accounts API",
+    "description": "The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.\n\nContact Support:\n Name: TrueLayer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T03:20:01.000Z",
+    "updatedAt": "2026-07-28T03:20:01.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-00e0c09d-8dec-4d2b-9c68-cbd30e68619e"
+  },
+  "item": [
+    {
+      "name": "v3",
+      "item": [
+        {
+          "name": "merchant-accounts",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "transactions",
+                  "item": [
+                    {
+                      "name": "List Merchant Account Transactions",
+                      "id": "bf1f2fbf-3d50-4c7b-ac65-d6c0362f2c63",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/merchant-accounts/:id/transactions?from=<dateTime>&to=<dateTime>&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "merchant-accounts",
+                            ":id",
+                            "transactions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date-time filter (ISO 8601)",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End date-time filter (ISO 8601)",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Pagination cursor",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "d587a430-d4b2-4559-a23a-75cc0d821f37",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Returns transactions for a merchant account."
+                      },
+                      "response": [
+                        {
+                          "id": "e7af4786-7c69-4537-8dba-ed438a64d22c",
+                          "name": "Merchant account transactions",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/merchant-accounts/:id/transactions?from=<dateTime>&to=<dateTime>&cursor=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "merchant-accounts",
+                                ":id",
+                                "transactions"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Start date-time filter (ISO 8601)",
+                                  "key": "from",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "End date-time filter (ISO 8601)",
+                                  "key": "to",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "Pagination cursor",
+                                  "key": "cursor",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"items\": [\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"refund\",\n      \"amount_in_minor\": \"<integer>\",\n      \"currency\": \"<string>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"payment\",\n      \"amount_in_minor\": \"<integer>\",\n      \"currency\": \"<string>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  ],\n  \"next_cursor\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:01.000Z",
+                          "updatedAt": "2026-07-28T03:20:01.000Z",
+                          "uid": "35240-e7af4786-7c69-4537-8dba-ed438a64d22c"
+                        },
+                        {
+                          "id": "93541f82-6527-4c58-a62d-ba91fb276a68",
+                          "name": "Unauthorized - invalid token or missing signature",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/merchant-accounts/:id/transactions?from=<dateTime>&to=<dateTime>&cursor=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "merchant-accounts",
+                                ":id",
+                                "transactions"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Start date-time filter (ISO 8601)",
+                                  "key": "from",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "End date-time filter (ISO 8601)",
+                                  "key": "to",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "Pagination cursor",
+                                  "key": "cursor",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:01.000Z",
+                          "updatedAt": "2026-07-28T03:20:01.000Z",
+                          "uid": "35240-93541f82-6527-4c58-a62d-ba91fb276a68"
+                        },
+                        {
+                          "id": "bd31693e-3c64-4ece-9880-49713a677a2b",
+                          "name": "Resource not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v3/merchant-accounts/:id/transactions?from=<dateTime>&to=<dateTime>&cursor=<string>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v3",
+                                "merchant-accounts",
+                                ":id",
+                                "transactions"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Start date-time filter (ISO 8601)",
+                                  "key": "from",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "End date-time filter (ISO 8601)",
+                                  "key": "to",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "Pagination cursor",
+                                  "key": "cursor",
+                                  "value": "<string>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T03:20:01.000Z",
+                          "updatedAt": "2026-07-28T03:20:01.000Z",
+                          "uid": "35240-bd31693e-3c64-4ece-9880-49713a677a2b"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T03:20:01.000Z",
+                      "updatedAt": "2026-07-28T03:20:01.000Z",
+                      "uid": "35240-bf1f2fbf-3d50-4c7b-ac65-d6c0362f2c63"
+                    }
+                  ],
+                  "id": "8c75e163-89fb-465c-9d40-15052c5d7db9",
+                  "createdAt": "2026-07-28T03:20:01.000Z",
+                  "updatedAt": "2026-07-28T03:20:01.000Z",
+                  "uid": "35240-8c75e163-89fb-465c-9d40-15052c5d7db9"
+                },
+                {
+                  "name": "Get Merchant Account",
+                  "id": "b1b5d4d4-8268-482c-a06b-3c7d65904932",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/merchant-accounts/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "merchant-accounts",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "b0a330ba-2d29-4b52-a6cc-585bf9001d44",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) "
+                        }
+                      ]
+                    },
+                    "description": "Retrieve a merchant account and its current balance."
+                  },
+                  "response": [
+                    {
+                      "id": "3ab8616b-d24f-4a32-a844-1ebd827eceb9",
+                      "name": "Merchant account details",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/merchant-accounts/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "merchant-accounts",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"currency\": \"<string>\",\n  \"account_identifiers\": [\n    {\n      \"type\": \"<string>\",\n      \"sort_code\": \"<string>\",\n      \"account_number\": \"<string>\",\n      \"iban\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"sort_code\": \"<string>\",\n      \"account_number\": \"<string>\",\n      \"iban\": \"<string>\"\n    }\n  ],\n  \"available_balance_in_minor\": \"<integer>\",\n  \"current_balance_in_minor\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T03:20:01.000Z",
+                      "updatedAt": "2026-07-28T03:20:01.000Z",
+                      "uid": "35240-3ab8616b-d24f-4a32-a844-1ebd827eceb9"
+                    },
+                    {
+                      "id": "539622dd-8537-4f81-a98c-0900a991b02a",
+                      "name": "Unauthorized - invalid token or missing signature",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/merchant-accounts/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "merchant-accounts",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:20:01.000Z",
+                      "updatedAt": "2026-07-28T03:20:01.000Z",
+                      "uid": "35240-539622dd-8537-4f81-a98c-0900a991b02a"
+                    },
+                    {
+                      "id": "a21d078d-1b84-48d6-adc6-cc52c6015567",
+                      "name": "Resource not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/merchant-accounts/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "merchant-accounts",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T03:20:01.000Z",
+                      "updatedAt": "2026-07-28T03:20:01.000Z",
+                      "uid": "35240-a21d078d-1b84-48d6-adc6-cc52c6015567"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T03:20:01.000Z",
+                  "updatedAt": "2026-07-28T03:20:01.000Z",
+                  "uid": "35240-b1b5d4d4-8268-482c-a06b-3c7d65904932"
+                }
+              ],
+              "id": "f1e384e4-2a38-47d5-b40f-410b36f04789",
+              "createdAt": "2026-07-28T03:20:01.000Z",
+              "updatedAt": "2026-07-28T03:20:01.000Z",
+              "uid": "35240-f1e384e4-2a38-47d5-b40f-410b36f04789"
+            },
+            {
+              "name": "List Merchant Accounts",
+              "id": "14486c09-465f-42a7-8141-a4d149809db1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v3/merchant-accounts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v3",
+                    "merchant-accounts"
+                  ]
+                },
+                "description": "Returns all merchant accounts for the integration."
+              },
+              "response": [
+                {
+                  "id": "4388639e-344f-4f03-bf27-511ff3199dbd",
+                  "name": "List of merchant accounts",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/merchant-accounts",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "merchant-accounts"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"items\": [\n    {\n      \"id\": \"<uuid>\",\n      \"currency\": \"<string>\",\n      \"account_identifiers\": [\n        {\n          \"type\": \"<string>\",\n          \"sort_code\": \"<string>\",\n          \"account_number\": \"<string>\",\n          \"iban\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"sort_code\": \"<string>\",\n          \"account_number\": \"<string>\",\n          \"iban\": \"<string>\"\n        }\n      ],\n      \"available_balance_in_minor\": \"<integer>\",\n      \"current_balance_in_minor\": \"<integer>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"currency\": \"<string>\",\n      \"account_identifiers\": [\n        {\n          \"type\": \"<string>\",\n          \"sort_code\": \"<string>\",\n          \"account_number\": \"<string>\",\n          \"iban\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"sort_code\": \"<string>\",\n          \"account_number\": \"<string>\",\n          \"iban\": \"<string>\"\n        }\n      ],\n      \"available_balance_in_minor\": \"<integer>\",\n      \"current_balance_in_minor\": \"<integer>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T03:20:01.000Z",
+                  "updatedAt": "2026-07-28T03:20:01.000Z",
+                  "uid": "35240-4388639e-344f-4f03-bf27-511ff3199dbd"
+                },
+                {
+                  "id": "716b3c15-ed56-46a7-9642-89288ac7026e",
+                  "name": "Unauthorized - invalid token or missing signature",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/merchant-accounts",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "merchant-accounts"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"type\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T03:20:01.000Z",
+                  "updatedAt": "2026-07-28T03:20:01.000Z",
+                  "uid": "35240-716b3c15-ed56-46a7-9642-89288ac7026e"
+                }
+              ],
+              "createdAt": "2026-07-28T03:20:01.000Z",
+              "updatedAt": "2026-07-28T03:20:01.000Z",
+              "uid": "35240-14486c09-465f-42a7-8141-a4d149809db1"
+            }
+          ],
+          "id": "95d5dc13-8132-49fe-9b2b-ac22f84de6d6",
+          "createdAt": "2026-07-28T03:20:01.000Z",
+          "updatedAt": "2026-07-28T03:20:01.000Z",
+          "uid": "35240-95d5dc13-8132-49fe-9b2b-ac22f84de6d6"
+        }
+      ],
+      "id": "fe287439-58d5-4264-85d6-e9e8cd2a9199",
+      "createdAt": "2026-07-28T03:20:01.000Z",
+      "updatedAt": "2026-07-28T03:20:01.000Z",
+      "uid": "35240-fe287439-58d5-4264-85d6-e9e8cd2a9199"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.truelayer.com"
+    }
+  ]
+}
