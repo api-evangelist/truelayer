@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TrueLayer Payments Mandates API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Mandates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Mandate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.truelayer.com/v3/mandates",
+            "headers": [
+              {
+                "name": "Tl-Signature",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Variable Recurring Payment (VRP) mandate. A mandate authorizes the payee to initiate future payments within defined parameters."
+        },
+        {
+          "info": {
+            "name": "Get Mandate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.truelayer.com/v3/mandates/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a mandate by ID."
+        },
+        {
+          "info": {
+            "name": "Revoke Mandate",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.truelayer.com/v3/mandates/:id",
+            "headers": [
+              {
+                "name": "Tl-Signature",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Revoke an active VRP mandate."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

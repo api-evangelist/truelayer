@@ -1,0 +1,722 @@
+{
+  "item": [
+    {
+      "id": "8fa90f0c-260e-4aba-8b49-b31026013bcb",
+      "name": "Mandates",
+      "description": {
+        "content": "Variable recurring payment mandates",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f02fb598-3b85-4578-88ae-b487e908212c",
+          "name": "Create Mandate",
+          "request": {
+            "name": "Create Mandate",
+            "description": {
+              "content": "Create a Variable Recurring Payment (VRP) mandate. A mandate authorizes the payee to initiate future payments within defined parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "mandates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Tl-Signature",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Idempotency-Key",
+                "value": "<uuid>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mandate\": {\n    \"type\": \"<string>\",\n    \"beneficiary\": {\n      \"type\": \"<string>\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": \"<object>\"\n    },\n    \"provider_selection\": \"<object>\"\n  },\n  \"currency\": \"<string>\",\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"constraints\": {\n    \"valid_from\": \"<dateTime>\",\n    \"valid_to\": \"<dateTime>\",\n    \"maximum_individual_amount\": \"<integer>\",\n    \"periodic_limits\": [\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      },\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "83a75f2f-ccd6-482a-bb30-7dc9dcfb77a3",
+              "name": "Mandate created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mandate\": {\n    \"type\": \"<string>\",\n    \"beneficiary\": {\n      \"type\": \"<string>\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": \"<object>\"\n    },\n    \"provider_selection\": \"<object>\"\n  },\n  \"currency\": \"<string>\",\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"constraints\": {\n    \"valid_from\": \"<dateTime>\",\n    \"valid_to\": \"<dateTime>\",\n    \"maximum_individual_amount\": \"<integer>\",\n    \"periodic_limits\": [\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      },\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"252c3a68-0922-1cbd-1d25-1b66b79c9f7a\",\n  \"user\": {\n    \"id\": \"bc392555-802c-092e-df0e-d490bfb44641\"\n  },\n  \"resource_token\": \"string\",\n  \"status\": \"authorization_required\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a6d6ae6-a7d7-45b0-9c95-d6fdb9f6f503",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mandate\": {\n    \"type\": \"<string>\",\n    \"beneficiary\": {\n      \"type\": \"<string>\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": \"<object>\"\n    },\n    \"provider_selection\": \"<object>\"\n  },\n  \"currency\": \"<string>\",\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"constraints\": {\n    \"valid_from\": \"<dateTime>\",\n    \"valid_to\": \"<dateTime>\",\n    \"maximum_individual_amount\": \"<integer>\",\n    \"periodic_limits\": [\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      },\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"trace_id\": \"string\",\n  \"errors\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "586eb941-2bbf-46cd-a352-90f109ccf219",
+              "name": "Unauthorized - invalid token or missing signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Idempotency-Key",
+                    "value": "<uuid>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mandate\": {\n    \"type\": \"<string>\",\n    \"beneficiary\": {\n      \"type\": \"<string>\",\n      \"merchant_account_id\": \"<uuid>\",\n      \"account_holder_name\": \"<string>\",\n      \"account_identifier\": \"<object>\"\n    },\n    \"provider_selection\": \"<object>\"\n  },\n  \"currency\": \"<string>\",\n  \"user\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"constraints\": {\n    \"valid_from\": \"<dateTime>\",\n    \"valid_to\": \"<dateTime>\",\n    \"maximum_individual_amount\": \"<integer>\",\n    \"periodic_limits\": [\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      },\n      {\n        \"maximum_amount\": \"<integer>\",\n        \"period\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27bd1a5e-c64d-4450-8288-4aeb35a95d59",
+          "name": "Get Mandate",
+          "request": {
+            "name": "Get Mandate",
+            "description": {
+              "content": "Retrieve a mandate by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "mandates",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f8fa2a9-1716-41c1-8dea-5ecd1ca0c500",
+              "name": "Mandate details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"71f7761b-039d-ea35-05dc-fca0dac649b4\",\n  \"currency\": \"string\",\n  \"mandate\": {},\n  \"user\": {},\n  \"status\": \"authorized\",\n  \"constraints\": {},\n  \"metadata\": {},\n  \"created_at\": \"1998-10-21T03:11:01.109Z\",\n  \"authorized_at\": \"1988-10-25T11:22:50.581Z\",\n  \"revoked_at\": \"1958-04-14T12:10:04.515Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13dc4ae0-b3f3-487d-8323-9ae86feed829",
+              "name": "Unauthorized - invalid token or missing signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6c874a5-fda4-4ae9-801c-db8b4e269dad",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2bf4a6ea-1fff-4f8c-8e5d-531ba550ba8c",
+          "name": "Revoke Mandate",
+          "request": {
+            "name": "Revoke Mandate",
+            "description": {
+              "content": "Revoke an active VRP mandate.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "mandates",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "Tl-Signature",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0103201d-7045-4337-a3d6-b081f6a178e7",
+              "name": "Mandate revoked",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "de2a2ace-ccf6-4482-98b6-fb412dd3e7b9",
+              "name": "Unauthorized - invalid token or missing signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "784fa0c9-7521-4e0b-bda9-810b091c3bbd",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "mandates",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Tl-Signature",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.truelayer.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "62088bfc-33e7-48eb-abdf-185afbc1ecb2",
+    "name": "TrueLayer Payments Mandates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.\n\nContact Support:\n Name: TrueLayer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TrueLayer Payments Mandates Merchant Accounts API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchant Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Merchant Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.truelayer.com/v3/merchant-accounts"
+          },
+          "docs": "Returns all merchant accounts for the integration."
+        },
+        {
+          "info": {
+            "name": "Get Merchant Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.truelayer.com/v3/merchant-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a merchant account and its current balance."
+        },
+        {
+          "info": {
+            "name": "List Merchant Account Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.truelayer.com/v3/merchant-accounts/:id/transactions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date-time filter (ISO 8601)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date-time filter (ISO 8601)"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor"
+              }
+            ]
+          },
+          "docs": "Returns transactions for a merchant account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
