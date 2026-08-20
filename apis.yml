@@ -22,6 +22,14 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/truelayer.png
 tags:
 - Data API
+- Financial-Services
+- Open Banking
+- Payments
+- PSD2
+- UK Banking
+- VRP
+tags_raw:
+- Data API
 - Financial Services
 - Open Banking
 - Payments
