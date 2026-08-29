@@ -222,6 +222,9 @@ apis:
   - type: GraphQL
     url: graphql/truelayer-graphql.md
 common:
+- type: CapabilityMap
+  url: capabilities/truelayer-capability-edges.yml
+  name: TrueLayer Business Capability Map
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/truelayer/overview
 - type: AgenticAccess

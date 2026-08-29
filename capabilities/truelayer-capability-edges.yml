@@ -1,0 +1,55 @@
+slug: truelayer
+provider: TrueLayer
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Payments
+  spec_file: truelayer-payments-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.9
+  evidence: POST /v3/payments  createPayment  Create Payment; POST /v3/payments/{id}/authorization-flow  startAuthorizationFlow
+  reason: Creation of open banking payments plus an authorisation flow is payment instruction capture,
+    validation and authorisation.
+- tag: Payouts
+  spec_file: truelayer-payouts-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.75
+  evidence: POST /v3/payouts  createPayout  Create Payout; "payments, payouts, refunds" over "open banking
+    rails"
+  reason: Outbound payout initiation and status retrieval is payment instruction initiation; could arguably
+    extend to processing, so .10 chosen with moderate confidence.
+- tag: Refunds
+  spec_file: truelayer-refunds-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.72
+  evidence: POST /v3/payments/{id}/refunds  createRefund  Create Refund; "create and manage open banking
+    payments, payouts, refunds"
+  reason: Operations create and list refunds against open banking payments — i.e. initiating a reverse
+    payment instruction on payment rails. Clearly Payments & Card Management; refund initiation sits closest
+    to payment instruction capture/authorisation, hence moderate confidence on the L2.
+- tag: Mandates
+  spec_file: truelayer-mandates-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /v3/mandates  createMandate  Create Mandate; "variable recurring payment mandates across
+    the UK and EU"
+  reason: VRP mandate creation and revocation establishes the authorisation under which recurring open
+    banking payments are initiated — payment instruction authorisation.
