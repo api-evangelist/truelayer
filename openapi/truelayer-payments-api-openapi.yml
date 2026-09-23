@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: TrueLayer Mandates Payments API
+  title: TrueLayer Payments API
   description: The TrueLayer Payments API v3 enables applications to create and manage open banking payments, payouts, refunds, and variable recurring payment mandates across the UK and EU. TrueLayer connects to 69+ banks and provides a unified interface for instant bank payments using open banking rails. Authentication requires signed requests with private keys and OAuth2 access tokens.
   version: 3.0.0
   contact:
@@ -153,116 +153,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-    UnprocessableEntity:
-      description: Unprocessable entity - business logic error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              errors:
-                type: object
-    BadRequest:
-      description: Bad request - invalid parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              trace_id:
-                type: string
-              errors:
-                type: object
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
   schemas:
-    CreatePaymentResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Payment ID
-        user:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-        resource_token:
-          type: string
-          description: JWT token for client-side payment authorization (15 min expiry)
-        status:
-          type: string
-          enum:
-          - authorization_required
-          description: Initial status after creation
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        amount_in_minor:
-          type: integer
-        currency:
-          type: string
-        payment_method:
-          type: object
-        user:
-          type: object
-        status:
-          type: string
-          enum:
-          - authorization_required
-          - authorizing
-          - authorized
-          - executed
-          - settled
-          - failed
-          - pending
-        metadata:
-          type: object
-        created_at:
-          type: string
-          format: date-time
-        executed_at:
-          type: string
-          format: date-time
-        settled_at:
-          type: string
-          format: date-time
-        failure_reason:
-          type: string
     CreatePaymentRequest:
       type: object
       required:
@@ -376,6 +267,115 @@ components:
           maxProperties: 10
           additionalProperties:
             type: string
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        amount_in_minor:
+          type: integer
+        currency:
+          type: string
+        payment_method:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+          - authorization_required
+          - authorizing
+          - authorized
+          - executed
+          - settled
+          - failed
+          - pending
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        executed_at:
+          type: string
+          format: date-time
+        settled_at:
+          type: string
+          format: date-time
+        failure_reason:
+          type: string
+    CreatePaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Payment ID
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT token for client-side payment authorization (15 min expiry)
+        status:
+          type: string
+          enum:
+          - authorization_required
+          description: Initial status after creation
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    UnprocessableEntity:
+      description: Unprocessable entity - business logic error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              errors:
+                type: object
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
   securitySchemes:
     BearerAuth:
       type: http
