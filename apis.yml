@@ -34,7 +34,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/truelayer.png
 tags:
 - Data API
-- Financial-Services
+- Financial Services
 - Open Banking
 - Payments
 - PSD2
@@ -48,6 +48,7 @@ tags_raw:
 - PSD2
 - UK Banking
 - VRP
+- Financial-Services
 url: https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/apis.yml
 created: '2026-03-27'
 modified: '2026-05-19'
@@ -100,8 +101,6 @@ apis:
   - type: Vocabulary
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - type: GraphQL
-    url: graphql/truelayer-graphql.md
 - aid: truelayer:truelayer-merchant-accounts-api
   name: TrueLayer Merchant Accounts API
   description: Merchant account management and balance
@@ -130,8 +129,6 @@ apis:
   - type: Vocabulary
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - type: GraphQL
-    url: graphql/truelayer-graphql.md
 - aid: truelayer:truelayer-payments-api
   name: TrueLayer Payments API
   description: Create and manage individual bank payments
@@ -160,8 +157,6 @@ apis:
   - type: Vocabulary
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - type: GraphQL
-    url: graphql/truelayer-graphql.md
 - aid: truelayer:truelayer-payouts-api
   name: TrueLayer Payouts API
   description: Payments from merchant accounts to users
@@ -190,8 +185,6 @@ apis:
   - type: Vocabulary
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - type: GraphQL
-    url: graphql/truelayer-graphql.md
 - aid: truelayer:truelayer-refunds-api
   name: TrueLayer Refunds API
   description: Refund payments back to users
@@ -220,8 +213,6 @@ apis:
   - type: Vocabulary
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
-  - type: GraphQL
-    url: graphql/truelayer-graphql.md
 common:
 - type: CapabilityMap
   url: capabilities/truelayer-capability-edges.yml
