@@ -341,17 +341,6 @@ components:
                 type: string
               errors:
                 type: object
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
     UnprocessableEntity:
       description: Unprocessable entity - business logic error
       content:
@@ -367,6 +356,17 @@ components:
                 type: object
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
       content:
         application/json:
           schema:
