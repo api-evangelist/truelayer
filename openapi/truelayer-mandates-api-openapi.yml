@@ -105,7 +105,97 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
   schemas:
+    CreateMandateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT for mandate authorization
+        status:
+          type: string
+          enum:
+          - authorization_required
+    Mandate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        currency:
+          type: string
+        mandate:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+          - authorization_required
+          - authorizing
+          - authorized
+          - revoked
+          - failed
+        constraints:
+          type: object
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        authorized_at:
+          type: string
+          format: date-time
+        revoked_at:
+          type: string
+          format: date-time
     CreateMandateRequest:
       type: object
       required:
@@ -191,96 +281,6 @@ components:
                     - year
         metadata:
           type: object
-    CreateMandateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-        resource_token:
-          type: string
-          description: JWT for mandate authorization
-        status:
-          type: string
-          enum:
-          - authorization_required
-    Mandate:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        currency:
-          type: string
-        mandate:
-          type: object
-        user:
-          type: object
-        status:
-          type: string
-          enum:
-          - authorization_required
-          - authorizing
-          - authorized
-          - revoked
-          - failed
-        constraints:
-          type: object
-        metadata:
-          type: object
-        created_at:
-          type: string
-          format: date-time
-        authorized_at:
-          type: string
-          format: date-time
-        revoked_at:
-          type: string
-          format: date-time
-  responses:
-    BadRequest:
-      description: Bad request - invalid parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              trace_id:
-                type: string
-              errors:
-                type: object
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
   securitySchemes:
     BearerAuth:
       type: http

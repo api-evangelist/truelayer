@@ -130,8 +130,8 @@ components:
                 type: string
               errors:
                 type: object
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -141,8 +141,8 @@ components:
                 type: string
               title:
                 type: string
-    NotFound:
-      description: Resource not found
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
       content:
         application/json:
           schema:

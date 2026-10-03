@@ -153,6 +153,57 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    UnprocessableEntity:
+      description: Unprocessable entity - business logic error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              errors:
+                type: object
   schemas:
     CreatePaymentRequest:
       type: object
@@ -267,6 +318,27 @@ components:
           maxProperties: 10
           additionalProperties:
             type: string
+    CreatePaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Payment ID
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        resource_token:
+          type: string
+          description: JWT token for client-side payment authorization (15 min expiry)
+        status:
+          type: string
+          enum:
+          - authorization_required
+          description: Initial status after creation
     Payment:
       type: object
       properties:
@@ -304,78 +376,6 @@ components:
           format: date-time
         failure_reason:
           type: string
-    CreatePaymentResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Payment ID
-        user:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-        resource_token:
-          type: string
-          description: JWT token for client-side payment authorization (15 min expiry)
-        status:
-          type: string
-          enum:
-          - authorization_required
-          description: Initial status after creation
-  responses:
-    BadRequest:
-      description: Bad request - invalid parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              trace_id:
-                type: string
-              errors:
-                type: object
-    UnprocessableEntity:
-      description: Unprocessable entity - business logic error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              errors:
-                type: object
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
   securitySchemes:
     BearerAuth:
       type: http
