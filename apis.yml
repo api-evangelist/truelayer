@@ -214,6 +214,12 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml
 common:
+- type: Plans
+  url: plans/truelayer-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/truelayer-rate-limits.yml
+- type: FinOps
+  url: finops/truelayer-finops.yml
 - type: CapabilityMap
   url: capabilities/truelayer-capability-edges.yml
   name: TrueLayer Business Capability Map
