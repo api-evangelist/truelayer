@@ -15,23 +15,6 @@ checked:
 summary: null
 marketplace_apps: []
 edges:
-- partner_name: UK Open Banking
-  partner: null
-  type: contract
-  channel: regulator-register
-  relationship: standard-participant
-  direction: partner-built
-  evidence: https://www.openbanking.org.uk/regulated-providers/truelayer/
-  contract_reference:
-    register: UK Open Banking regulated providers (OBL directory)
-    spec_file: null
-    role: Third Party Providers
-    registered_name: TrueLayer Limited
-    register_id: https://register.fca.org.uk/s/firm?id=0014G00002UxKoUQAV
-    matched_domain: truelayer.com
-    api_families: null
-    detected_by: sweep-standard-registers.py
-    detected: '2026-10-12'
 - partner_name: AIB
   partner: null
   partner_match: null
@@ -1093,4 +1076,21 @@ edges:
   - info
   - transactions
   - offline_access
+- partner_name: UK Open Banking
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.openbanking.org.uk/regulated-providers/truelayer/
+  contract_reference:
+    register: UK Open Banking regulated providers (OBL directory)
+    spec_file: null
+    role: Third Party Providers
+    registered_name: TrueLayer Limited
+    register_id: https://register.fca.org.uk/s/firm?id=0014G00002UxKoUQAV
+    matched_domain: truelayer.com
+    api_families: null
+    detected_by: sweep-standard-registers.py
+    detected: '2026-10-14'
 templates: []
