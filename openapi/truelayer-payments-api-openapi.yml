@@ -153,7 +153,95 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    UnprocessableEntity:
+      description: Unprocessable entity - business logic error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              errors:
+                type: object
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+              trace_id:
+                type: string
+              errors:
+                type: object
+    Unauthorized:
+      description: Unauthorized - invalid token or missing signature
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+              title:
+                type: string
   schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        amount_in_minor:
+          type: integer
+        currency:
+          type: string
+        payment_method:
+          type: object
+        user:
+          type: object
+        status:
+          type: string
+          enum:
+          - authorization_required
+          - authorizing
+          - authorized
+          - executed
+          - settled
+          - failed
+          - pending
+        metadata:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        executed_at:
+          type: string
+          format: date-time
+        settled_at:
+          type: string
+          format: date-time
+        failure_reason:
+          type: string
     CreatePaymentRequest:
       type: object
       required:
@@ -267,43 +355,6 @@ components:
           maxProperties: 10
           additionalProperties:
             type: string
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        amount_in_minor:
-          type: integer
-        currency:
-          type: string
-        payment_method:
-          type: object
-        user:
-          type: object
-        status:
-          type: string
-          enum:
-          - authorization_required
-          - authorizing
-          - authorized
-          - executed
-          - settled
-          - failed
-          - pending
-        metadata:
-          type: object
-        created_at:
-          type: string
-          format: date-time
-        executed_at:
-          type: string
-          format: date-time
-        settled_at:
-          type: string
-          format: date-time
-        failure_reason:
-          type: string
     CreatePaymentResponse:
       type: object
       properties:
@@ -325,57 +376,6 @@ components:
           enum:
           - authorization_required
           description: Initial status after creation
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-    Unauthorized:
-      description: Unauthorized - invalid token or missing signature
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-    BadRequest:
-      description: Bad request - invalid parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              trace_id:
-                type: string
-              errors:
-                type: object
-    UnprocessableEntity:
-      description: Unprocessable entity - business logic error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              type:
-                type: string
-              title:
-                type: string
-              errors:
-                type: object
   securitySchemes:
     BearerAuth:
       type: http
