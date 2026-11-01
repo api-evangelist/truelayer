@@ -1,4 +1,4 @@
-# TrueLayer (truelayer)
+# TrueLayer
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,96 +66,187 @@
 
 TrueLayer is Europe's leading open banking platform providing unified access to bank data, payments, payouts, refunds, and variable recurring payments across the UK and EU. TrueLayer connects to 69+ financial institutions and enables instant bank payments, data enrichment, and account verification through a single API.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/apis.yml)
+**Areas:** Data API · Financial Services · Open Banking · Payments · PSD2 · UK Banking · VRP
 
-## Scope
+## TrueLayer on APIs.io
 
-- **Type:** Index
+Everything profiled for TrueLayer is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/truelayer/](https://apis.io/providers/truelayer/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-- Data API
-- Financial Services
-- Open Banking
-- Payments
-- PSD2
-- UK Banking
-- VRP
+- [TrueLayer Data API](https://apis.io/apis/truelayer/data-api/) — The TrueLayer Data API provides access to bank account data including account information, balances, transactions, identity verification, and standing…
+- [TrueLayer Mandates API](https://apis.io/apis/truelayer/truelayer-mandates-api/) — Variable recurring payment mandates
+- [TrueLayer Merchant Accounts API](https://apis.io/apis/truelayer/truelayer-merchant-accounts-api/) — Merchant account management and balance
+- [TrueLayer Payments API](https://apis.io/apis/truelayer/truelayer-payments-api/) — Create and manage individual bank payments
+- [TrueLayer Payouts API](https://apis.io/apis/truelayer/truelayer-payouts-api/) — Payments from merchant accounts to users
+- [TrueLayer Refunds API](https://apis.io/apis/truelayer/truelayer-refunds-api/) — Refund payments back to users
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-27
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### GraphQL (1)
 
-### TrueLayer Payments API
+GraphQL schemas.
 
-The TrueLayer Payments API v3 enables creation and management of open banking payments, payouts, refunds, and variable recurring payment mandates. Supports closed-loop pay-ins, single external payments, VRP mandates, merchant account management, and full webhook event coverage across UK and EU markets.
+- [Moved to /providers/truelayer/](https://apis.io/graphqls/truelayer/truelayer-graphql/)
 
-- **Human URL:** [https://docs.truelayer.com/docs/payments-api-basics](https://docs.truelayer.com/docs/payments-api-basics)
-- **Base URL:** `https://api.truelayer.com`
+#### MCP servers (2)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Open Banking
-- Payments
-- Payouts
-- Refunds
-- VRP
+- [MCP Server](https://apis.io/servers/truelayer/mcp-server/)
+- [truelayer](https://apis.io/servers/truelayer/truelayer/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://docs.truelayer.com/docs/payments-api-basics)
-- [Getting Started](https://docs.truelayer.com/docs/create-a-payment)
-- [Webhooks](https://docs.truelayer.com/docs/payments-api-webhook-reference)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/openapi/truelayer-payments-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Spectral Rules](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/rules/truelayer-rules.yml)
-- [JSON Schema](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-schema/truelayer-payment-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [J S O N L D Context](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/json-ld/truelayer-context.jsonld)
-- [Vocabulary](https://raw.githubusercontent.com/api-evangelist/truelayer/refs/heads/main/vocabulary/truelayer-vocabulary.yml)
-- [Postman Collection](collections/truelayer-payments.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/truelayer-payments.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### TrueLayer Data API
+- [Truelayer Agentic Access](https://apis.io/agentic-access/truelayer/truelayer-agentic-access/)
 
-The TrueLayer Data API provides access to bank account data including account information, balances, transactions, identity verification, and standing orders. Used for account verification, affordability assessments, and financial data enrichment.
+#### JSON Schema (1)
 
-- **Human URL:** [https://docs.truelayer.com/docs/data-api-basics](https://docs.truelayer.com/docs/data-api-basics)
-- **Base URL:** `https://api.truelayer.com`
+The data models the API reads and writes.
 
-#### Tags
+- [Payment](https://apis.io/schemas/truelayer/truelayer-payment/)
 
-- Account Data
-- Bank Data
-- Data API
-- Identity Verification
-- Open Banking
+#### JSON Structure (1)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://docs.truelayer.com/docs/data-api-basics)
-- [Reference](https://docs.truelayer.com/reference)
-- [Postman Collection](collections/truelayer-payments.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/truelayer-payments.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Truelayer Payment Structure](https://apis.io/json-structure/truelayer/truelayer-payment-structure/)
 
-## Common Properties
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Truelayer Context](https://apis.io/jsonld/truelayer/truelayer-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [TrueLayer Vocabulary](https://apis.io/vocabularies/truelayer/truelayer-vocabulary/)
+
+#### Examples (2)
+
+Example requests and responses.
+
+- [Truelayer Create Mandate Example](https://apis.io/examples/truelayer/truelayer-create-mandate-example/)
+- [Truelayer Create Payment Example](https://apis.io/examples/truelayer/truelayer-create-payment-example/)
+
+#### Collections (11)
+
+Postman and Open Collection request collections.
+
+- [TrueLayer Payments Mandates API](https://apis.io/collections/truelayer/open-truelayer-mandates-api/)
+- [TrueLayer Payments Mandates Merchant Accounts API](https://apis.io/collections/truelayer/open-truelayer-merchant-accounts-api/)
+- [TrueLayer Payments API](https://apis.io/collections/truelayer/open-truelayer-payments/)
+- [TrueLayer Mandates Payments API](https://apis.io/collections/truelayer/open-truelayer-payments-api/)
+- [TrueLayer Payments Mandates Payouts API](https://apis.io/collections/truelayer/open-truelayer-payouts-api/)
+- [TrueLayer Payments Mandates Refunds API](https://apis.io/collections/truelayer/open-truelayer-refunds-api/)
+- [TrueLayer Payments Mandates API](https://apis.io/collections/truelayer/postman-truelayer-mandates-api/)
+- [TrueLayer Payments Mandates Merchant Accounts API](https://apis.io/collections/truelayer/postman-truelayer-merchant-accounts-api/)
+- [TrueLayer Mandates Payments API](https://apis.io/collections/truelayer/postman-truelayer-payments-api/)
+- [TrueLayer Payments Mandates Payouts API](https://apis.io/collections/truelayer/postman-truelayer-payouts-api/)
+- [TrueLayer Payments Mandates Refunds API](https://apis.io/collections/truelayer/postman-truelayer-refunds-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [TrueLayer — jsonschema rules](https://apis.io/rules/truelayer/truelayer-jsonschema-spectral-rules/)
+- [TrueLayer API Rules](https://apis.io/rules/truelayer/truelayer-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Truelayer Authentication](https://apis.io/security/truelayer/truelayer-authentication/)
+- [Truelayer Domain Security](https://apis.io/security/truelayer/truelayer-domain-security/)
+- [Truelayer Trust Center](https://apis.io/security/truelayer/truelayer-trust-center/)
+- [Truelayer Vulnerability Disclosure](https://apis.io/security/truelayer/truelayer-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Truelayer Plans Pricing](https://apis.io/plans/truelayer/truelayer-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Truelayer Rate Limits](https://apis.io/rate-limits/truelayer/truelayer-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Truelayer Finops](https://apis.io/finops/truelayer/truelayer-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://truelayer.com/)
 - [Documentation](https://docs.truelayer.com/)
-- [API Reference](https://docs.truelayer.com/reference)
-- [GitHub Organization](https://github.com/TrueLayer)
-- [Console](https://console.truelayer.com/)
-- [Sandbox](https://console.truelayer-sandbox.com/)
-- [S D Ks](https://docs.truelayer.com/docs/client-libraries)
+- [API reference](https://docs.truelayer.com/reference)
 - [Changelog](https://docs.truelayer.com/changelog)
 - [Blog](https://truelayer.com/blog/)
-- [LinkedIn](https://www.linkedin.com/company/truelayer/)
-- [Twitter](https://twitter.com/TrueLayer)
-- [M C P Server](https://github.com/TrueLayer/truelayer_mcp)
-- [L L Ms Txt](https://docs.truelayer.com/llms.txt)
+- [GitHub](https://github.com/TrueLayer)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 43.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 58.5 |
+| Contract governance | 27.3 |
+| Operational transparency | 32.9 |
+| Developer ergonomics | 51.2 |
+| Access clarity | 15.8 |
+
+**Agent readiness 38.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 25.2** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/truelayer/](https://apis.io/providers/truelayer/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for TrueLayer: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/truelayer/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
